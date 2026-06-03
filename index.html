@@ -74,14 +74,14 @@ body{min-height:100vh;font-family:'Inter',sans-serif;color:#fff;background:linea
 .tray-out-rim{background:linear-gradient(160deg,#150a30,#0a0518);border-radius:16px;padding:4px;box-shadow:inset 0 3px 10px rgba(0,0,0,.8)}
 .tray-out{background:radial-gradient(ellipse at 40% 35%,#1a1240 0%,#0d0828 55%,#060418 100%);border-radius:13px;min-height:90px;display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:10px;padding:16px 10px;position:relative;overflow:visible;box-shadow:inset 0 4px 16px rgba(0,0,0,.6)}
 .tray-out::before{content:'';position:absolute;inset:0;border-radius:13px;pointer-events:none;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(200,100,255,.015) 20px,rgba(200,100,255,.015) 21px)}
-.die{width:58px;height:58px;position:relative;cursor:default;display:flex;align-items:center;justify-content:center;font-size:32px;color:#111;background:#fff;border-radius:12px;border:2px solid rgba(255,255,255,.7);box-shadow:0 4px 0 rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.5),inset 0 1px 0 #fff;transition:transform .12s,border-color .15s,box-shadow .15s;user-select:none;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.die{width:58px;height:58px;position:relative;cursor:default;display:flex;align-items:center;justify-content:center;font-size:40px;color:#111;background:#fff;border-radius:12px;border:2px solid rgba(255,255,255,.7);box-shadow:0 4px 0 rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.5),inset 0 1px 0 #fff;transition:transform .12s,border-color .15s,box-shadow .15s;user-select:none;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .die.clickable{cursor:pointer}
 .die.clickable:hover,.die.clickable:active{border-color:rgba(255,200,0,.9);box-shadow:0 0 20px rgba(255,200,0,.5),0 4px 0 rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.4);transform:translateY(-4px)}
 .die.selected{border-color:rgba(255,200,0,1);box-shadow:0 0 28px rgba(255,200,0,.7),0 4px 0 rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.4);transform:translateY(-7px);background:#fffbe6}
 .die.selected::after{content:'✓';position:absolute;top:-10px;right:-8px;font-size:10px;background:linear-gradient(135deg,#ffb030,#e07000);color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;line-height:18px;font-weight:700;box-shadow:0 0 8px rgba(255,150,0,.6)}
 .die.used{opacity:.22;filter:grayscale(1);cursor:not-allowed;transform:none!important;box-shadow:none}
 .die.cpu-die{background:linear-gradient(145deg,#dde0f0,#b8bcd8);border-color:rgba(180,190,220,.7);color:#223;box-shadow:0 4px 0 rgba(0,0,0,.4),0 6px 14px rgba(0,0,0,.4)}
-.die-out{width:58px;height:58px;position:relative;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;background:linear-gradient(145deg,#7744ff,#4422cc);border-radius:12px;border:2px solid rgba(180,140,255,.5);box-shadow:0 0 16px rgba(120,80,255,.4),0 4px 0 rgba(0,0,0,.4),0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);text-shadow:0 1px 4px rgba(0,0,0,.4);user-select:none;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:default;transition:transform .12s,box-shadow .12s,filter .12s}
+.die-out{width:58px;height:58px;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;background:linear-gradient(145deg,#7744ff,#4422cc);border-radius:12px;border:2px solid rgba(180,140,255,.5);box-shadow:0 0 16px rgba(120,80,255,.4),0 4px 0 rgba(0,0,0,.4),0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);text-shadow:0 1px 4px rgba(0,0,0,.4);user-select:none;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:default;transition:transform .12s,box-shadow .12s,filter .12s}
 .die-out.clickable-wo{cursor:pointer}
 .die-out.clickable-wo:hover,.die-out.clickable-wo:active{transform:translateY(-4px);filter:brightness(1.2)}
 .die-out.selected-wo{border-color:rgba(255,200,0,.9);transform:translateY(-7px);box-shadow:0 0 28px rgba(255,200,0,.5),0 4px 0 rgba(0,0,0,.4)}
@@ -90,11 +90,12 @@ body{min-height:100vh;font-family:'Inter',sans-serif;color:#fff;background:linea
 .die.rolling,.die-out.rolling{animation:roll .38s ease forwards}
 @keyframes roll{0%{transform:translate(0,0) rotate(0)}20%{transform:translate(-6px,5px) rotate(-15deg)}40%{transform:translate(5px,-6px) rotate(12deg)}60%{transform:translate(-5px,4px) rotate(-10deg)}80%{transform:translate(6px,-4px) rotate(13deg)}100%{transform:translate(0,0) rotate(0)}}
 .msg-bar{border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:.75rem;min-height:38px;display:flex;align-items:center;gap:8px}
+.msg-bar:empty,.msg-bar.hidden{visibility:hidden}
 .msg-bar.info{background:rgba(50,100,255,.15);color:#9ac4ff;border:1px solid rgba(80,140,255,.25)}
 .msg-bar.warn{background:rgba(255,80,0,.12);color:#ffaa66;border:1px solid rgba(255,100,0,.25)}
-.msg-bar.muted{background:rgba(255,255,255,.04);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.06)}
+.msg-bar.muted{visibility:hidden}
 .msg-bar.hint{background:rgba(255,180,0,.1);color:#ffcc44;border:1px solid rgba(255,180,0,.2)}
-.cpu-thinking{display:flex;align-items:center;gap:8px;font-size:13px;color:#7aadff;font-weight:600;padding:10px 14px;background:rgba(50,100,255,.1);border-radius:10px;border:1px solid rgba(80,140,255,.2);margin-bottom:.75rem}
+.cpu-thinking{display:none}
 .dot-anim span{display:inline-block;animation:blink 1.2s infinite}
 .dot-anim span:nth-child(2){animation-delay:.2s}
 .dot-anim span:nth-child(3){animation-delay:.4s}
@@ -280,6 +281,7 @@ function renderHome(){
 // SINGLE PLAYER
 // ══════════════════════════════════════════════
 function spInitial(){spHistory.length=0;return{screen:'setup',playerName:'',playerScore:0,cpuScore:0,playerBeurten:0,cpuBeurten:0,isPlayerTurn:true,dice:[1,1,1,1,1],diceState:['free','free','free','free','free'],turnScore:0,phase:'idle',message:'',msgType:'',popup:null,zegWurpClicked:false,wurpDoel:5000,spelNummer:1,cpuThinking:false,cpuMsg:'',_winner:null,cpuDice:[1,1,1,1,1],cpuDiceState:['free','free','free','free','free'],cpuTurnScore:0,cpuTotalHeld:0,showCpuDice:false,playerWins:0,cpuWins:0};}
+function spResetForNewGame(){spHistory.length=0;}
 let SP=spInitial();
 function spSelIdx(){return SP.diceState.map((s,i)=>s==='selected'?i:-1).filter(i=>i>=0);}
 
@@ -314,7 +316,7 @@ function spCpuRollStep(){
     const fi=SP.cpuDiceState.map((s,i)=>s==='free'?i:-1).filter(i=>i>=0);
     let c={};fi.forEach(i=>{const v=SP.cpuDice[i];c[v]=(c[v]||0)+1;});
     const anyScore=fi.some(i=>{const v=SP.cpuDice[i];return v===1||v===5||(c[v]>=3);});
-    if(!anyScore){SP.cpuTurnScore=0;SP.cpuMsg='💻 Computer gooit niks — beurt voorbij!';SP.cpuThinking=false;spRender();setTimeout(()=>spEndCpuTurn(0),1200);return;}
+    if(!anyScore){SP.cpuTurnScore=0;SP.cpuThinking=false;spRender();setTimeout(()=>spEndCpuTurn(0),1200);return;}
     let{select,stop}=cpuDecide(SP.cpuDice,SP.cpuDiceState,SP.cpuTurnScore,SP.cpuScore,SP.playerScore,SP.wurpDoel,SP.cpuTotalHeld);
     select.forEach(i=>SP.cpuDiceState[i]='selected');
     const selScore=calcScore(select.map(i=>SP.cpuDice[i])).score;SP.cpuTurnScore+=selScore;SP.cpuTotalHeld=(SP.cpuTotalHeld||0)+select.length;
@@ -322,7 +324,7 @@ function spCpuRollStep(){
     else{select.forEach(i=>SP.cpuDiceState[i]='used');if(SP.cpuDiceState.every(s=>s==='used')){SP.cpuDiceState=['free','free','free','free','free'];SP.cpuTotalHeld=0;SP.cpuMsg=`💻 Alle stenen scoren! Computer gooit opnieuw (+${selScore}).`;}else SP.cpuMsg=`💻 Computer kiest +${selScore} en gooit verder...`;spRender();setTimeout(()=>spCpuRollStep(),900);}
   },420);
 }
-function spEndCpuTurn(scored){SP.cpuScore+=scored;SP.cpuBeurten++;if(scored>0)spHistory.push({naam:'💻 Computer',score:scored});SP.showCpuDice=false;SP.cpuThinking=false;spCheckWinner('cpu');}
+function spEndCpuTurn(scored){SP.cpuScore+=scored;SP.cpuBeurten++;spHistory.push({naam:'💻 Computer',score:scored});SP.showCpuDice=false;SP.cpuThinking=false;spCheckWinner('cpu');}
 function spCheckWinner(who){
   const maxScore=Math.max(SP.playerScore,SP.cpuScore);const allEqual=SP.playerBeurten===SP.cpuBeurten;
   if(maxScore>=SP.wurpDoel&&allEqual){
@@ -343,7 +345,8 @@ function spDoRoll(){
   if(SP.diceState.every(s=>s==='used')){SP.diceState=['free','free','free','free','free'];SP.message='Alle stenen scoren! Gooi opnieuw.';SP.msgType='info';}
   const toRoll=SP.diceState.map((s,i)=>s==='free'?i:-1).filter(i=>i>=0);SP.zegWurpClicked=false;SP.phase='thrown';spRender();
   const els=document.querySelectorAll('#tray .die');toRoll.forEach(i=>els[i]?.classList.add('rolling'));
-  setTimeout(()=>{toRoll.forEach(i=>SP.dice[i]=Math.ceil(Math.random()*6));document.querySelectorAll('#tray .die.rolling').forEach(el=>el.classList.remove('rolling'));const fi=SP.diceState.map((s,i)=>s==='free'?i:-1).filter(i=>i>=0);let c={};fi.forEach(i=>{const v=SP.dice[i];c[v]=(c[v]||0)+1;});const any=fi.some(i=>{const v=SP.dice[i];return v===1||v===5||(c[v]>=3);});if(!any){SP.turnScore=0;SP.phase='bust';SP.message='Geen punten! Beurt voorbij.';SP.msgType='warn';spRender();setTimeout(()=>{SP.playerBeurten++;spCheckWinner('player');},1400);}else{SP.phase='thrown';SP.message='Klik op dobbelstenen om te selecteren.';SP.msgType='info';spRender();}},420);
+  setTimeout(()=>{toRoll.forEach(i=>SP.dice[i]=Math.ceil(Math.random()*6));document.querySelectorAll('#tray .die.rolling').forEach(el=>el.classList.remove('rolling'));const fi=SP.diceState.map((s,i)=>s==='free'?i:-1).filter(i=>i>=0);let c={};fi.forEach(i=>{const v=SP.dice[i];c[v]=(c[v]||0)+1;});const any=fi.some(i=>{const v=SP.dice[i];return v===1||v===5||(c[v]>=3);});  // bust: registreer 0 punten
+  if(!any){SP.turnScore=0;SP.phase='bust';spRender();setTimeout(()=>{spHistory.push({naam:SP.playerName,score:0});SP.playerBeurten++;spCheckWinner('player');},1400);}else{SP.phase='thrown';SP.message='Klik op dobbelstenen om te selecteren.';SP.msgType='info';spRender();}},420);
 }
 function spDoBank(){if(!SP.zegWurpClicked){SP.popup={type:'zegwurp'};SP.turnScore=0;SP.diceState=['free','free','free','free','free'];SP.phase='idle';SP.message='';SP.msgType='';spRender();return;}const si=spSelIdx();const{valid,score}=evalSel(si,SP.dice);if(valid)SP.turnScore+=score;if(SP.turnScore===0){spEndPlayerTurn();return;}spOpenRaad(SP.turnScore);}
 function spOpenRaad(echt){SP.popup={type:'raad',echt,opts:generateRaadOpties(echt)};spRender();}
@@ -387,17 +390,17 @@ function spGameHTML(){
     <div class="info-bar red-bar" style="min-width:100px;flex:0 0 auto"><div class="bar-label">Wurpdoel</div><div class="bar-val">${SP.wurpDoel.toLocaleString('nl')}</div></div>
     <div class="info-bar" style="flex:1"><div><div class="bar-label">${SP.isPlayerTurn&&!SP.cpuThinking?'Jouw beurt':'Computer'}</div><div class="bar-val" style="font-size:18px">${SP.isPlayerTurn&&!SP.cpuThinking?SP.playerName:'💻 Computer'}</div></div><div style="text-align:right"><div class="bar-label">Spel</div><div class="bar-val">${SP.spelNummer}</div></div></div>
   </div>
-  ${SP.cpuThinking?`<div class="cpu-thinking">${SP.cpuMsg}<span class="dot-anim" style="margin-left:4px"><span>.</span><span>.</span><span>.</span></span></div>`:''}
-  ${!SP.cpuThinking&&SP.isPlayerTurn?`
-  <div class="tray-wrap"><div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div></div>
-  ${incomplete?`<div class="msg-bar hint">⚠ Selecteer een volledige combinatie.</div>`:''}
-  <div class="msg-bar ${SP.msgType||'muted'}">${SP.message||'&nbsp;'}</div>
-  <div class="btn-row">
+  <div class="tray-wrap" style="visibility:${SP.isPlayerTurn&&!SP.cpuThinking?'visible':'hidden'}">
+    <div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div>
+  </div>
+  <div class="msg-bar hint" style="visibility:${incomplete?'visible':'hidden'}">⚠ Selecteer een volledige combinatie.</div>
+  <div class="msg-bar ${SP.msgType||'info'}" style="visibility:${SP.message&&SP.msgType&&SP.msgType!=='muted'?'visible':'hidden'}">${SP.message||'&nbsp;'}</div>
+  <div class="btn-row" style="visibility:${SP.isPlayerTurn&&!SP.cpuThinking?'visible':'hidden'}">
     <button class="btn btn-orange" id="zeg-wurp-btn" ${!canBank||SP.zegWurpClicked?'disabled':''} style="${SP.zegWurpClicked?'opacity:.3;cursor:not-allowed':''}">📢 ZEG WURP!</button>
     <button class="btn btn-blue" id="roll-btn" ${!canRoll?'disabled':''}>🎲 Wurp nu!</button>
     <button class="btn btn-orange" id="bank-btn" ${!canBank?'disabled':''}>💰 WURP!</button>
-  </div>`:''}
-  ${cpuTrayHTML}${scoreHistHTML(spHistory)}`;}
+  </div>
+  ${scoreHistHTML(spHistory)}`;}
 
 function spPopupHTML(){
   if(!SP.popup)return'';const p=SP.popup;
@@ -419,7 +422,6 @@ function spWinnerHTML(){
     </div>
     <div class="btn-row" style="justify-content:center">
       <button class="btn btn-orange" id="opnieuw">Opnieuw spelen</button>
-      <button class="btn btn-gray" id="back-home">‹ Hoofdmenu</button>
     </div>
   </div>${scoreHistHTML(spHistory)}`;}
 
@@ -434,7 +436,7 @@ function spBindEvents(){
   document.getElementById('close-popup')?.addEventListener('click',()=>{SP.popup=null;spEndPlayerTurn();});
   document.querySelectorAll('[data-raad]').forEach(btn=>btn.addEventListener('click',e=>spHandleRaad(+e.currentTarget.dataset.raad)));
   document.querySelectorAll('.die.clickable,.die.selected').forEach(d=>{const h=e=>{e.preventDefault();if(SP.phase!=='thrown'||!SP.isPlayerTurn)return;const i=+d.dataset.die;if(SP.diceState[i]==='used')return;const fi=SP.diceState.map((s,j)=>s==='free'||s==='selected'?j:-1).filter(j=>j>=0);if(SP.diceState[i]==='selected')SP.diceState[i]='free';else if(canSelect(i,fi,SP.dice))SP.diceState[i]='selected';else{SP.message='Deze steen scoort niet alleen.';SP.msgType='hint';}spRender();};d.addEventListener('click',h);d.addEventListener('touchend',h,{passive:false});});
-  document.getElementById('opnieuw')?.addEventListener('click',()=>{SP.playerScore=0;SP.cpuScore=0;SP.playerBeurten=0;SP.cpuBeurten=0;SP.isPlayerTurn=true;SP._winner=null;SP.spelNummer++;SP.screen='game';spResetPlayerTurn();SP.message=`${SP.playerName}, druk op Wurp nu!`;SP.msgType='info';spRender();});
+  document.getElementById('opnieuw')?.addEventListener('click',()=>{spHistory.length=0;SP.playerScore=0;SP.cpuScore=0;SP.playerBeurten=0;SP.cpuBeurten=0;SP.isPlayerTurn=true;SP._winner=null;SP.spelNummer++;SP.screen='game';spResetPlayerTurn();SP.message=`${SP.playerName}, druk op Wurp nu!`;SP.msgType='info';spRender();});
 }
 
 // ══════════════════════════════════════════════
@@ -471,7 +473,21 @@ function mpGameHTML(){
   let pills=order.map(id=>{const pl=players.find(p=>p.id===id)||{name:'?'};const isActive=id===curId,isMe=id===mpMyId;return`<div class="score-pill ${isActive?'active':''} ${isMe&&!isActive?'me':''}"><div class="pname">${pl.name}${isMe?' ★':''}</div><div class="ppts">${scores[id]||0}</div></div>`;}).join('');
   let diceHTML=dice.map((v,i)=>{let cls='die';if(ds[i]==='used')cls+=' used';else if(ds[i]==='selected')cls+=' selected';else if(phase==='thrown'&&isMyTurn)cls+=' clickable';return`<div class="${cls}" data-die="${i}">${FACES[v-1]}</div>`;}).join('');
   let saldoBlock='';if(mpG.geschiedenis&&mpG.geschiedenis.length>0){const sal=mpG.saldo||{};let rows=order.map(id=>{const pl=players.find(p=>p.id===id)||{name:'?'};const s=sal[id]||0;return`<div class="saldo-row"><span class="sname">${pl.name}</span><span class="sval ${s>=0?'pos':'neg'}">${s>=0?'+':''}€${s}</span></div>`;}).join('');saldoBlock=`<div class="saldo-card"><div class="section-label" style="margin-bottom:.5rem">De Blockchain</div>${rows}</div>`;}
-  return`${mpPopupHTML()}${backBtn()}<div class="title-bar">WURPEN</div><div class="scoreboard">${pills}</div><div style="display:flex;gap:.75rem;align-items:stretch;margin-bottom:1rem"><div class="info-bar red-bar" style="min-width:100px;flex:0 0 auto"><div class="bar-label">Wurpdoel</div><div class="bar-val">${(mpG.wurpDoel||5000).toLocaleString('nl')}</div></div><div class="info-bar" style="flex:1"><div><div class="bar-label">Beurt van</div><div class="bar-val" style="font-size:18px">${curName}</div></div><div style="text-align:right"><div class="bar-label">Inzet·Pot</div><div class="bar-val" style="font-size:16px">€${mpG.inzet||10}·€${players.length*(mpG.inzet||10)}</div></div></div></div>${!isMyTurn?`<div class="spectator-msg">Beurt van <strong>${curName}</strong></div>`:''}<div class="tray-wrap"><div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div></div>${incomplete?`<div class="msg-bar hint">⚠ Selecteer een volledige combinatie.</div>`:''}<div class="msg-bar ${mpG.msgType||'muted'}">${mpG.message||'&nbsp;'}</div>${isMyTurn?`<div class="btn-row"><button class="btn btn-orange" id="zeg-wurp-btn" ${!canBank||mpG.zegWurpClicked?'disabled':''} style="${mpG.zegWurpClicked?'opacity:.3;cursor:not-allowed':''}">📢 ZEG WURP!</button><button class="btn btn-blue" id="roll-btn" ${!canRoll?'disabled':''}>🎲 Wurp nu!</button><button class="btn btn-orange" id="bank-btn" ${!canBank?'disabled':''}>💰 WURP!</button></div>`:''} ${saldoBlock}${scoreHistHTML(mpHistory)}`;}
+  return`${mpPopupHTML()}${backBtn()}<div class="title-bar">WURPEN</div><div class="scoreboard">${pills}</div>
+  <div style="display:flex;gap:.75rem;align-items:stretch;margin-bottom:1rem">
+    <div class="info-bar red-bar" style="min-width:100px;flex:0 0 auto"><div class="bar-label">Wurpdoel</div><div class="bar-val">${(mpG.wurpDoel||5000).toLocaleString('nl')}</div></div>
+    <div class="info-bar" style="flex:1"><div><div class="bar-label">Beurt van</div><div class="bar-val" style="font-size:18px">${curName}</div></div><div style="text-align:right"><div class="bar-label">Inzet·Pot</div><div class="bar-val" style="font-size:16px">€${mpG.inzet||10}·€${players.length*(mpG.inzet||10)}</div></div></div>
+  </div>
+  <div class="spectator-msg" style="visibility:${!isMyTurn?'visible':'hidden'}">Beurt van <strong>${curName}</strong></div>
+  <div class="tray-wrap"><div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div></div>
+  <div class="msg-bar hint" style="visibility:${incomplete?'visible':'hidden'}">⚠ Selecteer een volledige combinatie.</div>
+  <div class="msg-bar ${mpG.msgType||'info'}" style="visibility:${mpG.message&&mpG.msgType&&mpG.msgType!=='muted'?'visible':'hidden'}">${mpG.message||'&nbsp;'}</div>
+  <div class="btn-row" style="visibility:${isMyTurn?'visible':'hidden'}">
+    <button class="btn btn-orange" id="zeg-wurp-btn" ${!canBank||mpG.zegWurpClicked?'disabled':''} style="${mpG.zegWurpClicked?'opacity:.3;cursor:not-allowed':''}">📢 ZEG WURP!</button>
+    <button class="btn btn-blue" id="roll-btn" ${!canRoll?'disabled':''}>🎲 Wurp nu!</button>
+    <button class="btn btn-orange" id="bank-btn" ${!canBank?'disabled':''}>💰 WURP!</button>
+  </div>
+  ${saldoBlock}${scoreHistHTML(mpHistory)}`;}
 
 function mpWurpOutHTML(){
   const players=Object.values(mpG.players||{});const woPlayers=mpG.woPlayers||[];const woCurrent=mpG.woCurrent||0;const allDone=woCurrent>=woPlayers.length;const curWoId=!allDone?woPlayers[woCurrent]:null;const isMyWoTurn=curWoId===mpMyId;const curWoName=curWoId?players.find(p=>p.id===curWoId)?.name||'?':'';const woDice=mpG.woDice||[1,1,1,1,1];const woDs=mpG.woDiceState||['free','free','free','free','free'];const woPhase=mpG.woPhase||'idle';const wsi=mpSelIdx(woDs);const{valid:wValid}=evalSel(wsi,woDice);const canWoRoll=isMyWoTurn&&(woPhase==='idle'||(woPhase==='thrown'&&wValid));const canWoBank=isMyWoTurn&&((mpG.woTurnScore||0)>0||(woPhase==='thrown'&&wValid));const woScores=mpG.woScores||{};
@@ -563,7 +579,20 @@ function tbGameHTML(){
   let diceHTML=TB.dice.map((v,i)=>{const ds=TB.diceState[i];let cls='die';if(ds==='used')cls+=' used';else if(ds==='selected')cls+=' selected';else if(TB.phase==='thrown')cls+=' clickable';return`<div class="${cls}" data-die="${i}">${FACES[v-1]}</div>`;}).join('');
   const canRoll=(TB.phase==='idle'||(TB.phase==='thrown'&&valid))&&!TB.zegWurpClicked;const canBank=TB.turnScore>0||(TB.phase==='thrown'&&valid);const incomplete=TB.phase==='thrown'&&si.length>0&&!valid;
   let saldoBlock='';if(TB.geschiedenis.length>0){let rows=TB.players.map((pl,i)=>{const s=TB.saldo[i]||0;return`<div class="saldo-row"><span class="sname">${pl}</span><span class="sval ${s>=0?'pos':'neg'}">${s>=0?'+':''}€${s}</span></div>`;}).join('');saldoBlock=`<div class="saldo-card"><div class="section-label" style="margin-bottom:.5rem">De Blockchain</div>${rows}</div>`;}
-  return`${tbPopupHTML()}${backBtn()}<div class="title-bar">WURPEN</div><div class="scoreboard">${pills}</div><div style="display:flex;gap:.75rem;align-items:stretch;margin-bottom:1rem"><div class="info-bar red-bar" style="min-width:100px;flex:0 0 auto"><div class="bar-label">Wurpdoel</div><div class="bar-val">${TB.wurpDoel.toLocaleString('nl')}</div></div><div class="info-bar" style="flex:1"><div><div class="bar-label">Beurt van</div><div class="bar-val" style="font-size:18px">${p}</div></div><div style="text-align:right"><div class="bar-label">Inzet·Pot</div><div class="bar-val" style="font-size:16px">€${TB.inzet}·€${TB.players.length*TB.inzet}</div></div></div></div><div class="tray-wrap"><div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div></div>${incomplete?`<div class="msg-bar hint">⚠ Selecteer een volledige combinatie.</div>`:''}<div class="msg-bar ${TB.msgType||'muted'}">${TB.message||'&nbsp;'}</div><div class="btn-row"><button class="btn btn-orange" id="zeg-wurp-btn" ${!canBank||TB.zegWurpClicked?'disabled':''} style="${TB.zegWurpClicked?'opacity:.3;cursor:not-allowed':''}">📢 ZEG WURP!</button><button class="btn btn-blue" id="roll-btn" ${!canRoll?'disabled':''}>🎲 Wurp nu!</button><button class="btn btn-orange" id="bank-btn" ${!canBank?'disabled':''}>💰 WURP!</button></div>${saldoBlock}${scoreHistHTML(tbHistory)}`;}
+  return`${tbPopupHTML()}${backBtn()}<div class="title-bar">WURPEN</div><div class="scoreboard">${pills}</div>
+  <div style="display:flex;gap:.75rem;align-items:stretch;margin-bottom:1rem">
+    <div class="info-bar red-bar" style="min-width:100px;flex:0 0 auto"><div class="bar-label">Wurpdoel</div><div class="bar-val">${TB.wurpDoel.toLocaleString('nl')}</div></div>
+    <div class="info-bar" style="flex:1"><div><div class="bar-label">Beurt van</div><div class="bar-val" style="font-size:18px">${p}</div></div><div style="text-align:right"><div class="bar-label">Inzet·Pot</div><div class="bar-val" style="font-size:16px">€${TB.inzet}·€${TB.players.length*TB.inzet}</div></div></div>
+  </div>
+  <div class="tray-wrap"><div class="tray-outer"><div class="tray-rim"><div class="tray" id="tray">${diceHTML}</div></div></div></div>
+  <div class="msg-bar hint" style="visibility:${incomplete?'visible':'hidden'}">⚠ Selecteer een volledige combinatie.</div>
+  <div class="msg-bar ${TB.msgType||'info'}" style="visibility:${TB.message&&TB.msgType&&TB.msgType!=='muted'?'visible':'hidden'}">${TB.message||'&nbsp;'}</div>
+  <div class="btn-row">
+    <button class="btn btn-orange" id="zeg-wurp-btn" ${!canBank||TB.zegWurpClicked?'disabled':''} style="${TB.zegWurpClicked?'opacity:.3;cursor:not-allowed':''}">📢 ZEG WURP!</button>
+    <button class="btn btn-blue" id="roll-btn" ${!canRoll?'disabled':''}>🎲 Wurp nu!</button>
+    <button class="btn btn-orange" id="bank-btn" ${!canBank?'disabled':''}>💰 WURP!</button>
+  </div>
+  ${saldoBlock}${scoreHistHTML(tbHistory)}`;}
 
 function tbWurpOutHTML(){
   const allDone=TB.woCurrent>=TB.woPlayers.length;const curIdx=!allDone?TB.woPlayers[TB.woCurrent]:-1;const curName=!allDone?TB.players[curIdx]:'';
