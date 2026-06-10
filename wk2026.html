@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WK Pool 2026 — Deelnameformulier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;900&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --veld:#0a4d24; --veld2:#0c5a2b; --inkt:#15271c; --wit:#ffffff;
+  --geel:#fff3b0; --geelrand:#e3b800; --oranje:#ff5c00; --oranjedonker:#d94e00;
+  --lijn:#e2e9e4; --grijs:#5f6f65; --groen:#1d7a3f; --rood:#cf2b2b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Barlow',sans-serif;color:var(--inkt);
+  background:repeating-linear-gradient(0deg,var(--veld) 0 72px,var(--veld2) 72px 144px);
+  min-height:100vh;padding-bottom:90px;
+}
+header{padding:26px 16px 10px;text-align:center;color:var(--wit)}
+header .kop{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:46px;letter-spacing:2px;line-height:1;text-transform:uppercase}
+header .kop b{color:#ffd23f}
+header .sub{margin-top:6px;font-size:14px;opacity:.85;letter-spacing:1px;text-transform:uppercase}
+.steps{display:flex;gap:8px;justify-content:flex-start;overflow-x:auto;padding:14px 16px;max-width:880px;margin:0 auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.stap{flex:0 0 auto;display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);color:var(--wit);
+  border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 14px 7px 7px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.stap .nr{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700}
+.stap.actief{background:var(--wit);color:var(--inkt);border-color:var(--wit)}
+.stap.actief .nr{background:var(--oranje);color:var(--wit)}
+.stap.klaar .nr{background:var(--groen);color:var(--wit)}
+main{max-width:880px;margin:0 auto;padding:0 12px}
+.card{background:var(--wit);border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+h2{font-family:'Barlow Condensed';font-weight:900;font-size:28px;text-transform:uppercase;letter-spacing:1px;border-bottom:3px solid var(--oranje);padding-bottom:6px;margin-bottom:8px}
+h3{font-family:'Barlow Condensed';font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px}
+.uitleg{font-size:14px;color:var(--grijs);margin-bottom:14px;line-height:1.45}
+.punten{display:inline-block;background:#eef5ef;color:var(--groen);font-weight:700;font-size:12px;border-radius:6px;padding:2px 8px;margin-top:4px}
+label{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}
+input[type=text],input[type=email],input[type=number],input[type=password],select,textarea{
+  width:100%;padding:10px 12px;border:2px solid var(--geelrand);background:var(--geel);
+  border-radius:10px;font:inherit;font-size:16px;color:var(--inkt)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--oranje);background:#fffbe2}
+input:disabled,select:disabled,textarea:disabled{opacity:.6;background:#f1f1ec;border-color:#ccc}
+textarea{min-height:80px;resize:vertical}
+.btn{display:inline-block;background:var(--oranje);color:var(--wit);border:none;border-radius:12px;
+  font-family:'Barlow Condensed';font-weight:700;font-size:20px;letter-spacing:1px;text-transform:uppercase;
+  padding:12px 26px;cursor:pointer;box-shadow:0 3px 0 var(--oranjedonker)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--oranjedonker)}
+.btn:disabled{background:#b9b9b1;box-shadow:none;cursor:not-allowed}
+.btn.klein{font-size:15px;padding:8px 14px}
+.btn.ghost{background:#eef5ef;color:var(--groen);box-shadow:0 3px 0 #d4e2d6}
+.btn.rood{background:var(--rood);box-shadow:0 3px 0 #9c1f1f}
+.nav-onder{display:flex;justify-content:space-between;gap:10px;margin:6px 0 24px}
+.melding{border-radius:10px;padding:10px 14px;font-size:14px;margin:10px 0;line-height:1.4}
+.melding.warn{background:#fff4e0;border:1px solid #f0c060;color:#7a5200}
+.melding.fout{background:#fdebeb;border:1px solid #e3a0a0;color:#8c1f1f}
+.melding.ok{background:#e9f6ec;border:1px solid #9fd3ac;color:#155d2c}
+.voortgang{font-family:'Barlow Condensed';font-weight:700;font-size:18px;color:var(--groen)}
+/* wedstrijdrijen */
+.groepkop{font-family:'Barlow Condensed';font-weight:900;font-size:20px;letter-spacing:1px;text-transform:uppercase;
+  background:var(--inkt);color:var(--wit);border-radius:8px;padding:6px 12px;margin:18px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.groepkop .gk-status{font-size:14px;font-weight:600;opacity:.8}
+.wed{display:grid;grid-template-columns:34px 1fr 116px;gap:8px;align-items:center;padding:8px 4px;border-bottom:1px solid var(--lijn)}
+.wed:last-child{border-bottom:none}
+.wed .wnr{font-family:'Barlow Condensed';font-weight:700;color:var(--grijs);font-size:15px}
+.wed .winfo{min-width:0}
+.wed .teams{font-weight:700;font-size:15px;line-height:1.25}
+.wed .meta{font-size:12px;color:var(--grijs)}
+.mp{display:inline-block;background:var(--rood);color:var(--wit);font-weight:700;font-size:11px;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.scorebox{display:flex;gap:6px;align-items:center;justify-content:flex-end}
+.scorebox input{width:50px;text-align:center;padding:8px 4px;font-weight:700;font-size:17px;-moz-appearance:textfield}
+.scorebox input::-webkit-outer-spin-button,.scorebox input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.scorebox .vs{font-weight:900;color:var(--grijs)}
+/* standen */
+table.stand{width:100%;border-collapse:collapse;font-size:14px}
+table.stand th{font-family:'Barlow Condensed';text-transform:uppercase;letter-spacing:.5px;font-size:14px;color:var(--grijs);text-align:left;padding:4px 6px;border-bottom:2px solid var(--inkt)}
+table.stand td{padding:7px 6px;border-bottom:1px solid var(--lijn)}
+table.stand td.r,table.stand th.r{text-align:right}
+.pos{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#eef5ef;color:var(--groen);font-weight:700;font-size:13px;align-items:center;justify-content:center;margin-right:6px}
+.pos.p1{background:var(--groen);color:var(--wit)}
+.pos.p2{background:#9fd3ac;color:#0c3d1d}
+.swapbtn{border:1px solid var(--geelrand);background:var(--geel);border-radius:6px;font-size:14px;cursor:pointer;padding:2px 8px;margin-left:4px}
+/* checkbox-grids */
+.landgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px}
+.land{display:flex;align-items:center;gap:7px;border:2px solid var(--lijn);border-radius:9px;padding:7px 9px;font-size:14px;font-weight:600;cursor:pointer;background:#fafcfa;user-select:none}
+.land input{width:auto;accent-color:var(--oranje)}
+.land.aan{border-color:var(--oranje);background:#fff1e6}
+.land.auto{box-shadow:inset 0 0 0 2px #9fd3ac}
+.teller{font-family:'Barlow Condensed';font-weight:900;font-size:22px}
+.teller.ok{color:var(--groen)} .teller.niet{color:var(--rood)}
+/* bonus */
+.bvraag{border-bottom:1px solid var(--lijn);padding:14px 0}
+.bvraag:last-child{border-bottom:none}
+.bvraag .bv-tekst{font-weight:700;font-size:15px;line-height:1.35}
+.bvraag .bv-sub{font-size:13px;color:var(--grijs);margin-top:2px}
+.jnknoppen{display:flex;gap:8px;margin-top:8px}
+.jn{flex:1;max-width:120px;border:2px solid var(--lijn);background:#fafcfa;border-radius:10px;padding:9px 0;font-weight:700;font-size:15px;cursor:pointer;text-align:center}
+.jn.aan{border-color:var(--oranje);background:#fff1e6;color:var(--oranjedonker)}
+/* admin */
+#adminWrap{position:fixed;inset:0;background:#10231733;backdrop-filter:blur(2px);display:none;overflow:auto;z-index:50}
+#adminWrap.open{display:block}
+.admin-binnen{max-width:1000px;margin:30px auto;padding:0 12px 60px}
+.admin-tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.atab{background:rgba(255,255,255,.85);border:none;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:14px}
+.atab.actief{background:var(--inkt);color:var(--wit)}
+.deelnemer-rij{display:flex;justify-content:space-between;align-items:center;padding:10px 4px;border-bottom:1px solid var(--lijn);cursor:pointer;gap:10px}
+.deelnemer-rij:hover{background:#f6faf7}
+.score-pill{font-family:'Barlow Condensed';font-weight:900;font-size:20px;background:var(--inkt);color:#ffd23f;border-radius:8px;padding:2px 12px}
+.ovr{display:inline-flex;gap:4px;margin-left:8px}
+.ovr button{border:1px solid var(--lijn);background:#fafcfa;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:13px}
+.ovr button.aan{background:var(--inkt);color:var(--wit)}
+.kolom2{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:14px}
+@media(max-width:640px){.kolom2{grid-template-columns:1fr}}
+footer{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;display:flex;justify-content:center;pointer-events:none}
+footer button{pointer-events:auto;background:rgba(0,0,0,.45);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.3);
+  border-radius:999px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer}
+.klein-grijs{font-size:12px;color:var(--grijs)}
+.samenvat td{padding:4px 8px;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kop">WK POOL <b>2026</b></div>
+  <div class="sub">Deelnameformulier</div>
+</header>
+<nav class="steps" id="steps"></nav>
+<main id="app"></main>
+<div id="adminWrap"><div class="admin-binnen" id="adminApp"></div></div>
+<footer><button id="adminBtn">🔒 Beheerder</button></footer>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+/* ================= CONFIG ================= */
+var ADMIN_PW = 'paulenpino';
+var DB_ROOT  = 'wkpool2026';
+var DEADLINE = new Date('2026-06-11T21:00:00+02:00'); // aftrap Mexico - Zuid-Afrika
+
+var firebaseConfig = {
+  apiKey:            "AIzaSyBruJaRXPVS7dWrSl7Efilwh-GzS2eoF1k",
+  authDomain:        "wurpen-dc3bd.firebaseapp.com",
+  databaseURL:       "https://wurpen-dc3bd-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "wurpen-dc3bd",
+  storageBucket:     "wurpen-dc3bd.firebasestorage.app",
+  messagingSenderId: "21344488506",
+  appId:             "1:21344488506:web:7a2f5860418bde5daf7903"
+};
+var db = null;
+try{ firebase.initializeApp(firebaseConfig); db = firebase.database(); }catch(e){ console.warn('Firebase niet beschikbaar', e); }
+
+/* ================= DATA ================= */
+var TEAMS = {
+  A:['Mexico','Zuid-Korea','Tsjechië','Zuid-Afrika'],
+  B:['Zwitserland','Canada','Bosnië & Herzegovina','Qatar'],
+  C:['Brazilië','Marokko','Haïti','Schotland'],
+  D:['Verenigde Staten','Turkije','Australië','Paraguay'],
+  E:['Duitsland','Ecuador','Ivoorkust','Curaçao'],
+  F:['Nederland','Japan','Tunesië','Zweden'],
+  G:['België','Iran','Egypte','Nieuw-Zeeland'],
+  H:['Spanje','Uruguay','Saoedi-Arabië','Kaapverdië'],
+  I:['Frankrijk','Senegal','Noorwegen','Irak'],
+  J:['Argentinië','Oostenrijk','Algerije','Jordanië'],
+  K:['Portugal','Colombia','Oezbekistan','DR Congo'],
+  L:['Engeland','Kroatië','Panama','Ghana']
+};
+var GROEPEN = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+var ALLE48 = [];
+GROEPEN.forEach(function(g){ TEAMS[g].forEach(function(t){ ALLE48.push(t); }); });
+
+/* [nr, groep, datum, tijd, thuis, uit, MP] — tijden NL */
+var MATCHES = [
+[1,'A','11 jun','21:00','Mexico','Zuid-Afrika',0],
+[2,'A','12 jun','04:00','Zuid-Korea','Tsjechië',0],
+[3,'B','12 jun','21:00','Canada','Bosnië & Herzegovina',0],
+[4,'D','13 jun','03:00','Verenigde Staten','Paraguay',0],
+[5,'B','13 jun','21:00','Qatar','Zwitserland',0],
+[6,'C','14 jun','00:00','Brazilië','Marokko',1],
+[7,'C','14 jun','03:00','Haïti','Schotland',0],
+[8,'D','14 jun','06:00','Australië','Turkije',0],
+[9,'E','14 jun','19:00','Duitsland','Curaçao',0],
+[10,'F','14 jun','22:00','Nederland','Japan',1],
+[11,'E','15 jun','01:00','Ivoorkust','Ecuador',0],
+[12,'F','15 jun','04:00','Zweden','Tunesië',0],
+[13,'H','15 jun','18:00','Spanje','Kaapverdië',0],
+[14,'G','15 jun','21:00','België','Egypte',0],
+[15,'H','16 jun','00:00','Saoedi-Arabië','Uruguay',0],
+[16,'G','16 jun','03:00','Iran','Nieuw-Zeeland',0],
+[17,'I','16 jun','21:00','Frankrijk','Senegal',0],
+[18,'I','17 jun','00:00','Irak','Noorwegen',0],
+[19,'J','17 jun','03:00','Argentinië','Algerije',0],
+[20,'J','17 jun','06:00','Oostenrijk','Jordanië',0],
+[21,'K','17 jun','19:00','Portugal','DR Congo',0],
+[22,'L','17 jun','22:00','Engeland','Kroatië',1],
+[23,'L','18 jun','01:00','Ghana','Panama',0],
+[24,'K','18 jun','04:00','Oezbekistan','Colombia',0],
+[25,'A','18 jun','18:00','Tsjechië','Zuid-Afrika',0],
+[26,'B','18 jun','21:00','Zwitserland','Bosnië & Herzegovina',0],
+[27,'B','19 jun','00:00','Canada','Qatar',0],
+[28,'A','19 jun','03:00','Mexico','Zuid-Korea',0],
+[29,'D','19 jun','21:00','Verenigde Staten','Australië',0],
+[30,'C','20 jun','00:00','Schotland','Marokko',0],
+[31,'C','20 jun','02:30','Brazilië','Haïti',0],
+[32,'D','20 jun','05:00','Turkije','Paraguay',0],
+[33,'F','20 jun','19:00','Nederland','Zweden',1],
+[34,'E','20 jun','22:00','Duitsland','Ivoorkust',0],
+[35,'E','21 jun','02:00','Ecuador','Curaçao',0],
+[36,'F','21 jun','06:00','Tunesië','Japan',0],
+[37,'H','21 jun','18:00','Spanje','Saoedi-Arabië',0],
+[38,'G','21 jun','21:00','België','Iran',0],
+[39,'H','22 jun','00:00','Uruguay','Kaapverdië',0],
+[40,'G','22 jun','03:00','Nieuw-Zeeland','Egypte',0],
+[41,'I','22 jun','23:00','Frankrijk','Irak',0],
+[42,'I','23 jun','02:00','Noorwegen','Senegal',0],
+[43,'J','22 jun','19:00','Argentinië','Oostenrijk',0],
+[44,'J','23 jun','05:00','Jordanië','Algerije',0],
+[45,'K','23 jun','19:00','Portugal','Oezbekistan',0],
+[46,'L','23 jun','22:00','Engeland','Ghana',0],
+[47,'L','24 jun','01:00','Panama','Kroatië',0],
+[48,'K','24 jun','04:00','Colombia','DR Congo',0],
+[49,'A','25 jun','03:00','Zuid-Afrika','Zuid-Korea',0],
+[50,'A','25 jun','03:00','Tsjechië','Mexico',0],
+[51,'B','24 jun','21:00','Bosnië & Herzegovina','Qatar',0],
+[52,'B','24 jun','21:00','Zwitserland','Canada',0],
+[53,'C','25 jun','00:00','Marokko','Haïti',0],
+[54,'C','25 jun','00:00','Schotland','Brazilië',0],
+[55,'D','26 jun','04:00','Paraguay','Australië',0],
+[56,'D','26 jun','04:00','Turkije','Verenigde Staten',0],
+[57,'E','25 jun','22:00','Curaçao','Ivoorkust',0],
+[58,'E','25 jun','22:00','Ecuador','Duitsland',0],
+[59,'F','26 jun','01:00','Japan','Zweden',0],
+[60,'F','26 jun','01:00','Tunesië','Nederland',1],
+[61,'G','27 jun','05:00','Egypte','Iran',0],
+[62,'G','27 jun','05:00','Nieuw-Zeeland','België',0],
+[63,'H','27 jun','02:00','Kaapverdië','Saoedi-Arabië',0],
+[64,'H','27 jun','02:00','Uruguay','Spanje',1],
+[65,'I','26 jun','21:00','Senegal','Irak',0],
+[66,'I','26 jun','21:00','Noorwegen','Frankrijk',1],
+[67,'K','28 jun','01:30','DR Congo','Oezbekistan',0],
+[68,'K','28 jun','01:30','Colombia','Portugal',1],
+[69,'L','27 jun','23:00','Kroatië','Ghana',0],
+[70,'L','27 jun','23:00','Panama','Engeland',0],
+[71,'J','28 jun','04:00','Algerije','Oostenrijk',0],
+[72,'J','28 jun','04:00','Jordanië','Argentinië',0]
+];
+
+/* knock-out vragen + puntenschalen */
+var KO = [
+ {q:85, n:32, titel:'Laatste 32', vraag:'Welke van de 48 landen komen door de poulefase en zitten dus bij de laatste 32?',
+  grap:'Een goudvis zou statistisch gezien 21,33 goede landen kiezen. Je krijgt daarom pas punten vanaf 22 goede landen. Wees geen goudvis, ook al is ie oranje.',
+  schaal:{32:50,31:42,30:35,29:28,28:22,27:16,26:11,25:7,24:4,23:2,22:1}},
+ {q:86, n:16, titel:'Laatste 16', vraag:'Welke landen zitten er bij de laatste 16?',
+  grap:'Een doorgesnoven Zuid-Afrikaanse duikeend zou statistisch gezien 5,33 goede landen kiezen. Punten vanaf 6 goede landen.',
+  schaal:{16:50,15:42,14:35,13:28,12:22,11:16,10:11,9:7,8:4,7:2,6:1}},
+ {q:87, n:8, titel:'Laatste 8', vraag:'Welke landen zitten er bij de laatste 8?',
+  grap:'Een complete onbenul (iedereen kent er wel zo eentje binnen deze pool) zou statistisch gezien 1,33 goede landen kiezen. Punten vanaf 2 goede landen.',
+  schaal:{8:50,7:40,6:31,5:23,4:16,3:10,2:5}},
+ {q:88, n:4, titel:'Laatste 4', vraag:'Welke landen zitten er bij de laatste 4?', grap:'',
+  schaal:{4:50,3:35,2:22,1:10}},
+ {q:89, n:2, titel:'De Finale', vraag:'Welke 2 landen staan er in de finale?', grap:'',
+  schaal:{2:50,1:25}}
+];
+
+/* bonusvragen: t = num | text | jn | land | sel */
+var BONUS = [
+ {q:91,p:10,t:'text',v:'Wie wordt de topscorer van het Nederlands elftal?'},
+ {q:92,p:10,t:'num', v:'Hoeveel doelpunten maakt de topscorer van het Nederlands elftal?'},
+ {q:93,p:12,t:'text',v:'Welke Nederlandse voetballer pakt de eerste gele kaart?'},
+ {q:94,p:15,t:'text',v:'Welke geselecteerde Nederlandse VELDSPELER speelt géén minuut?'},
+ {q:95,p:10,t:'num', v:'Hoeveel doelpunten maakt het Nederlands elftal?'},
+ {q:96,p:15,t:'text',v:'Welke speler wordt topscorer van het WK?'},
+ {q:97,p:10,t:'num', v:'Hoeveel doelpunten maakt de topscorer?'},
+ {q:98,p:15,t:'text',v:'Wie wordt de beste speler van het WK?'},
+ {q:99,p:12,t:'land',v:'Welk land maakt de meeste doelpunten? (in 90 min + blessuretijd)'},
+ {q:100,p:8,t:'land',v:'Welk land pakt geen enkel punt?'},
+ {q:101,p:10,t:'num',v:'Hoeveel doelpunten vallen er tijdens de wedstrijd met de meeste doelpunten? (in 90 min + blessuretijd)'},
+ {q:102,p:6,t:'num',tol:1,v:'Hoeveel wedstrijden worden er via strafschoppen beslist?',sub:'Je mag er 1 naast zitten.'},
+ {q:103,p:8,t:'num',tol:5,v:'Hoeveel wedstrijden eindigen in 0-0? (in 90 min + blessuretijd)',sub:'Je mag er 5 naast zitten.'},
+ {q:104,p:10,t:'num',tolPct:5,v:'Hoeveel doelpunten worden er tijdens het gehele WK gemaakt? (in 90 min + blessuretijd)',sub:'Je mag er 5% naast zitten.'},
+ {q:105,p:4,t:'jn', v:'Curaçao scoort 2 doelpunten of meer tijdens de groepsfase.'},
+ {q:106,p:8,t:'sel',opts:['Spanje','Frankrijk','Engeland','Brazilië'],v:'Negatieve verrassing van het WK: welk van deze 4 landen komt het minst ver?',sub:'Spanje, Frankrijk, Engeland of Brazilië — noem één land.'},
+ {q:107,p:8,t:'num',v:'Wat is het "zuinigste" aantal doelpunten waarmee een land toch nog groepswinnaar weet te worden?'},
+ {q:108,p:4,t:'jn', v:'Nederland komt minstens even ver in het toernooi als Duitsland.'},
+ {q:109,p:4,t:'jn', v:'Nederland komt minstens even ver in het toernooi als Portugal.'},
+ {q:110,p:4,t:'jn', v:'Frankrijk en Spanje ontmoeten elkaar in het toernooi.'},
+ {q:111,p:5,t:'num',v:'Hoeveel strafschoppen mist het Nederlands elftal?',sub:'Alle strafschoppen, inclusief eventuele strafschoppenseries.'},
+ {q:112,p:3,t:'num',v:'Hoeveel keepers komen er voor het NL-elftal in actie?'},
+ {q:113,p:5,t:'num',tol:1,v:'Hoeveel kaarten incasseert het NL-elftal?',sub:'Je mag er 1 naast zitten.'},
+ {q:114,p:8,t:'num',tol:5,v:'In welke minuut van de wedstrijd valt de allereerste goal van het NL-elftal?',sub:'Je mag er 5 minuten naast zitten.'}
+];
+
+/* ================= STATE ================= */
+function leegForm(){
+  return { persoon:{naam:'',email:'',opm:''}, uitslagen:{}, es:{}, ko:{85:[],86:[],87:[],88:[],89:[],90:''}, bonus:{} };
+}
+var F = leegForm();          // formulier van de deelnemer
+var stap = 1;
+var LOCKED = false;          // na definitief inzenden
+var SUBMIT_ID = null;
+
+try{
+  var bewaard = localStorage.getItem('wkpool2026_state');
+  if(bewaard){ var p = JSON.parse(bewaard); F = p.form || F; stap = p.stap || 1; }
+  SUBMIT_ID = localStorage.getItem('wkpool2026_submitted') || null;
+  if(SUBMIT_ID) LOCKED = true;
+}catch(e){}
+['85','86','87','88','89'].forEach(function(k){ if(!Array.isArray(F.ko[k])) F.ko[k]=[]; });
+if(F.ko[90]==null) F.ko[90]='';
+
+function bewaar(){
+  if(LOCKED) return;
+  try{ localStorage.setItem('wkpool2026_state', JSON.stringify({form:F, stap:stap})); }catch(e){}
+}
+
+/* ================= HELPERS ================= */
+function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function norm(s){ return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); }
+function isGetal(v){ return v!==''&&v!=null&&!isNaN(parseInt(v,10)); }
+function uitslagIngevuld(form,nr){ var u=form.uitslagen[nr]; return !!u && isGetal(u.h) && isGetal(u.u); }
+function aantalIngevuld(form){ var c=0; MATCHES.forEach(function(m){ if(uitslagIngevuld(form,m[0])) c++; }); return c; }
+function naDeadline(){ return new Date() > DEADLINE; }
+
+/* ================= STANDEN ================= */
+function groepStand(form,g){
+  var rows = TEAMS[g].map(function(t){ return {team:t,p:0,ds:0,dv:0}; });
+  var idx = {}; rows.forEach(function(r){ idx[r.team]=r; });
+  var compleet = true;
+  MATCHES.forEach(function(m){
+    if(m[1]!==g) return;
+    if(!uitslagIngevuld(form,m[0])){ compleet=false; return; }
+    var u=form.uitslagen[m[0]], h=parseInt(u.h,10), a=parseInt(u.u,10);
+    var H=idx[m[4]], A=idx[m[5]];
+    H.dv+=h; A.dv+=a; H.ds+=h-a; A.ds+=a-h;
+    if(h>a) H.p+=3; else if(h<a) A.p+=3; else { H.p++; A.p++; }
+  });
+  rows.sort(function(x,y){ return y.p-x.p || y.ds-x.ds || y.dv-x.dv || TEAMS[g].indexOf(x.team)-TEAMS[g].indexOf(y.team); });
+  rows.forEach(function(r){ r.key = r.p+'|'+r.ds+'|'+r.dv; });
+  return { compleet:compleet, rows:rows };
+}
+
+/* eindstand per groep: berekend, met evt. handmatige wissel bij exact gelijke stand */
+function getEindstand(form,g){
+  var st = groepStand(form,g);
+  if(!st.compleet) return null;
+  var keyVan = {}; st.rows.forEach(function(r){ keyVan[r.team]=r.key; });
+  var berekend = st.rows.map(function(r){ return r.team; });
+  var opgeslagen = form.es[g];
+  var geldig = false;
+  if(Array.isArray(opgeslagen) && opgeslagen.length===4){
+    geldig = true;
+    var set1 = berekend.slice().sort().join('|'), set2 = opgeslagen.slice().sort().join('|');
+    if(set1!==set2) geldig=false;
+    else for(var i=0;i<4;i++){ if(keyVan[opgeslagen[i]] !== keyVan[berekend[i]]){ geldig=false; break; } }
+  }
+  if(!geldig){ form.es[g] = berekend.slice(); }
+  return form.es[g];
+}
+function alleGroepenCompleet(form){
+  for(var i=0;i<GROEPEN.length;i++){ if(!groepStand(form,GROEPEN[i]).compleet) return false; }
+  return true;
+}
+
+/* laatste 32 op basis van eindstanden: 12 winnaars + 12 nummers 2 + 8 beste nummers 3 */
+function berekenLaatste32(form){
+  if(!alleGroepenCompleet(form)) return null;
+  var door = [], derden = [];
+  GROEPEN.forEach(function(g){
+    var es = getEindstand(form,g);
+    var st = groepStand(form,g);
+    var info = {}; st.rows.forEach(function(r){ info[r.team]=r; });
+    door.push(es[0], es[1]);
+    derden.push(info[es[2]]);
+  });
+  derden.sort(function(x,y){ return y.p-x.p || y.ds-x.ds || y.dv-x.dv || ALLE48.indexOf(x.team)-ALLE48.indexOf(y.team); });
+  for(var i=0;i<8;i++) door.push(derden[i].team);
+  return door;
+}
+
+/* ================= RENDER: GEDEELDE BOUWSTENEN =================
+   pref = 'P' (deelnemer) of 'A' (beheerder/werkelijkheid) */
+function renderWedstrijden(form,pref){
+  var html = '';
+  GROEPEN.forEach(function(g){
+    var klaar = 0, tot = 0;
+    MATCHES.forEach(function(m){ if(m[1]===g){ tot++; if(uitslagIngevuld(form,m[0])) klaar++; } });
+    html += '<div class="groepkop">Groep '+g+'<span class="gk-status" id="'+pref+'gk'+g+'">'+klaar+'/'+tot+'</span></div>';
+    MATCHES.forEach(function(m){
+      if(m[1]!==g) return;
+      var u = form.uitslagen[m[0]] || {h:'',u:''};
+      html += '<div class="wed">'
+        + '<div class="wnr">'+m[0]+'</div>'
+        + '<div class="winfo"><div class="teams">'+esc(m[4])+' – '+esc(m[5])+(m[6]?'<span class="mp">2×</span>':'')+'</div>'
+        + '<div class="meta">'+m[2]+' · '+m[3]+'</div></div>'
+        + '<div class="scorebox">'
+        + '<input type="number" min="0" max="30" inputmode="numeric" value="'+esc(u.h)+'" data-u="'+pref+'|'+m[0]+'|h" '+(LOCKED&&pref==='P'?'disabled':'')+'>'
+        + '<span class="vs">–</span>'
+        + '<input type="number" min="0" max="30" inputmode="numeric" value="'+esc(u.u)+'" data-u="'+pref+'|'+m[0]+'|u" '+(LOCKED&&pref==='P'?'disabled':'')+'>'
+        + '</div></div>';
+    });
+  });
+  return html;
+}
+
+function renderEindstanden(form,pref){
+  var html = '';
+  GROEPEN.forEach(function(g){
+    var st = groepStand(form,g);
+    html += '<div class="groepkop">Groep '+g+'</div>';
+    if(!st.compleet){
+      html += '<div class="melding warn">Vul eerst alle uitslagen van groep '+g+' in bij stap 2.</div>';
+      return;
+    }
+    var es = getEindstand(form,g);
+    var keyVan = {}; st.rows.forEach(function(r){ keyVan[r.team]=r; });
+    html += '<table class="stand"><tr><th>#</th><th>Land</th><th class="r">Ptn</th><th class="r">+/−</th><th class="r">Voor</th><th></th></tr>';
+    es.forEach(function(t,i){
+      var r = keyVan[t];
+      var wissel = '';
+      if(i<3 && keyVan[es[i+1]].key===r.key && !(LOCKED&&pref==='P')){
+        wissel = '<button class="swapbtn" data-swap="'+pref+'|'+g+'|'+i+'" title="Wissel met nummer '+(i+2)+'">⇅</button>';
+      }
+      html += '<tr><td><span class="pos '+(i===0?'p1':i===1?'p2':'')+'">'+(i+1)+'</span></td>'
+        + '<td><b>'+esc(t)+'</b></td><td class="r">'+r.p+'</td><td class="r">'+(r.ds>0?'+':'')+r.ds+'</td><td class="r">'+r.dv+'</td><td>'+wissel+'</td></tr>';
+    });
+    html += '</table>';
+  });
+  return html;
+}
+
+function renderKO(form,pref){
+  var l32 = berekenLaatste32(form);
+  var html = '';
+  KO.forEach(function(k){
+    var gekozen = form.ko[k.q] || [];
+    var schaalTxt = Object.keys(k.schaal).sort(function(a,b){return b-a;}).map(function(n){return n+'&nbsp;goed&nbsp;=&nbsp;'+k.schaal[n]+'ptn';}).join(' · ');
+    html += '<h3>Vraag '+k.q+' — '+k.titel+'</h3>'
+      + '<div class="uitleg">'+esc(k.vraag)+(k.grap?'<br><i>'+esc(k.grap)+'</i>':'')+'<br><span class="punten">'+schaalTxt+'</span></div>'
+      + '<div><span class="teller '+(gekozen.length===k.n?'ok':'niet')+'" id="'+pref+'tel'+k.q+'">'+gekozen.length+' / '+k.n+'</span>'
+      + (k.q===85 && pref==='P' && l32 ? ' <button class="btn klein ghost" data-prefill="1" '+(LOCKED?'disabled':'')+'>↻ Vul automatisch o.b.v. mijn uitslagen</button>' : '')
+      + '</div><div class="landgrid">';
+    var autoSet = (k.q===85 && l32) ? l32 : null;
+    ALLE48.forEach(function(t){
+      var aan = gekozen.indexOf(t)>=0;
+      var isAuto = autoSet && autoSet.indexOf(t)>=0;
+      html += '<label class="land'+(aan?' aan':'')+(isAuto?' auto':'')+'">'
+        + '<input type="checkbox" data-ko="'+pref+'|'+k.q+'|'+esc(t)+'" '+(aan?'checked':'')+' '+(LOCKED&&pref==='P'?'disabled':'')+'>'
+        + esc(t)+'</label>';
+    });
+    html += '</div>';
+  });
+  var opts = '<option value=""'+(form.ko[90]===''?' selected':'')+'>— kies een land —</option>';
+  ALLE48.slice().sort(function(a,b){return a.localeCompare(b,'nl');}).forEach(function(t){
+    opts += '<option value="'+esc(t)+'"'+(form.ko[90]===t?' selected':'')+'>'+esc(t)+'</option>';
+  });
+  html += '<h3>Vraag 90 — De Kampioen</h3>'
+    + '<div class="uitleg">Welk land wordt wereldkampioen? <span class="punten">50 punten</span></div>'
+    + '<select data-ko90="'+pref+'" '+(LOCKED&&pref==='P'?'disabled':'')+'>'+opts+'</select>';
+  return html;
+}
+
+function renderBonus(form,pref){
+  var html = '';
+  BONUS.forEach(function(b){
+    var val = form.bonus[b.q]; if(val==null) val='';
+    var dis = (LOCKED&&pref==='P')?'disabled':'';
+    html += '<div class="bvraag"><div class="bv-tekst">'+b.q+'. '+esc(b.v)+' <span class="punten">'+b.p+' ptn</span></div>'
+      + (b.sub?'<div class="bv-sub">'+esc(b.sub)+'</div>':'');
+    if(b.t==='num'){
+      html += '<input type="number" inputmode="numeric" style="max-width:140px;margin-top:8px" value="'+esc(val)+'" data-b="'+pref+'|'+b.q+'" '+dis+'>';
+    } else if(b.t==='text'){
+      html += '<input type="text" style="margin-top:8px" value="'+esc(val)+'" data-b="'+pref+'|'+b.q+'" '+dis+'>';
+    } else if(b.t==='jn'){
+      html += '<div class="jnknoppen">'
+        + '<button type="button" class="jn'+(val==='Ja'?' aan':'')+'" data-jn="'+pref+'|'+b.q+'|Ja" '+dis+'>JA</button>'
+        + '<button type="button" class="jn'+(val==='Nee'?' aan':'')+'" data-jn="'+pref+'|'+b.q+'|Nee" '+dis+'>NEE</button></div>';
+    } else {
+      var lijst = b.t==='land' ? ALLE48.slice().sort(function(a,c){return a.localeCompare(c,'nl');}) : b.opts;
+      var o = '<option value=""'+(val===''?' selected':'')+'>— kies —</option>';
+      lijst.forEach(function(t){ o += '<option value="'+esc(t)+'"'+(val===t?' selected':'')+'>'+esc(t)+'</option>'; });
+      html += '<select style="margin-top:8px" data-bsel="'+pref+'|'+b.q+'" '+dis+'>'+o+'</select>';
+    }
+    html += '</div>';
+  });
+  return html;
+}
+
+/* ================= STAPPEN (DEELNEMER) ================= */
+function stapKlaar(n){
+  if(n===1) return F.persoon.naam.trim()!=='' && /\S+@\S+\.\S+/.test(F.persoon.email);
+  if(n===2) return aantalIngevuld(F)===72;
+  if(n===3) return alleGroepenCompleet(F);
+  if(n===4){
+    for(var i=0;i<KO.length;i++){ if((F.ko[KO[i].q]||[]).length!==KO[i].n) return false; }
+    return F.ko[90]!=='';
+  }
+  if(n===5){ for(var j=0;j<BONUS.length;j++){ var v=F.bonus[BONUS[j].q]; if(v==null||v==='') return false; } return true; }
+  return false;
+}
+
+function koWaarschuwingen(){
+  var w = [];
+  var lijst = {85:F.ko[85]||[],86:F.ko[86]||[],87:F.ko[87]||[],88:F.ko[88]||[],89:F.ko[89]||[]};
+  [[86,85],[87,86],[88,87],[89,88]].forEach(function(p){
+    var fout = lijst[p[0]].filter(function(t){ return lijst[p[1]].indexOf(t)<0; });
+    if(fout.length) w.push('Vraag '+p[0]+': '+fout.join(', ')+' staat niet aangevinkt bij vraag '+p[1]+'.');
+  });
+  if(F.ko[90] && lijst[89].indexOf(F.ko[90])<0) w.push('Je kampioen ('+F.ko[90]+') staat niet bij de finalisten (vraag 89).');
+  return w;
+}
+
+function renderStap(){
+  var el = document.getElementById('app');
+  var html = '';
+  if(LOCKED){
+    html += '<div class="melding ok">✅ Je inzending is <b>definitief verstuurd</b>. Hieronder kun je alles nog teruglezen, maar wijzigen kan niet meer. Veel succes!</div>';
+  } else if(naDeadline()){
+    html += '<div class="melding fout">⏱ De deadline (11 juni, 21:00) is verstreken. Inzenden is niet meer mogelijk.</div>';
+  }
+  if(stap===1){
+    html += '<div class="card"><h2>Stap 1 · Persoonsgegevens</h2>'
+      + '<div class="uitleg">Vul de gele velden met jouw gegevens.</div>'
+      + '<label>Voornaam + achternaam</label><input type="text" id="f-naam" value="'+esc(F.persoon.naam)+'" '+(LOCKED?'disabled':'')+'>'
+      + '<label>E-mailadres</label><input type="email" id="f-email" value="'+esc(F.persoon.email)+'" '+(LOCKED?'disabled':'')+'>'
+      + '<label>Opmerking(en), indien je die hebt en deze wenst te ventileren</label><textarea id="f-opm" '+(LOCKED?'disabled':'')+'>'+esc(F.persoon.opm)+'</textarea>'
+      + '</div>';
+  }
+  if(stap===2){
+    html += '<div class="card"><h2>Stap 2 · Groepswedstrijden</h2>'
+      + '<div class="uitleg">Vul de uitslagen van alle 72 groepswedstrijden in.'
+      + '<br>Toto goed = <b>1 punt</b> · Toto + uitslag goed = <b>3 punten</b> · <span class="mp">2×</span> wedstrijden tellen dubbel (max. 240 punten).</div>'
+      + '<div class="voortgang" id="wedTeller">'+aantalIngevuld(F)+' / 72 ingevuld</div>'
+      + renderWedstrijden(F,'P') + '</div>';
+  }
+  if(stap===3){
+    html += '<div class="card"><h2>Stap 3 · Eindstand per groep</h2>'
+      + '<div class="uitleg">Deze eindstanden zijn <b>automatisch berekend</b> uit jouw uitslagen van stap 2 (punten → doelsaldo → doelpunten vóór). '
+      + 'Alleen bij een exact gelijke stand kun je met ⇅ de volgorde wisselen.'
+      + '<br><span class="punten">7 punten per exact goede groep (alle 4 posities) · max. 84 punten</span></div>'
+      + renderEindstanden(F,'P') + '</div>';
+  }
+  if(stap===4){
+    var l32 = berekenLaatste32(F);
+    html += '<div class="card"><h2>Stap 4 · Knock-outs</h2>'
+      + '<div class="uitleg">De landen die volgens jouw uitslagen doorgaan naar de laatste 32 hebben een <span style="box-shadow:inset 0 0 0 2px #9fd3ac;border-radius:4px;padding:0 4px">groene rand</span> en zijn alvast aangevinkt — je mag nog wisselen. Max. 300 punten.</div>'
+      + (l32?'':'<div class="melding warn">Vul eerst alle 72 uitslagen in (stap 2); dan vink ik de laatste 32 alvast voor je aan.</div>')
+      + '<div id="koWarn"></div>'
+      + renderKO(F,'P') + '</div>';
+  }
+  if(stap===5){
+    html += '<div class="card"><h2>Stap 5 · Bonusvragen</h2>'
+      + '<div class="uitleg">24 extra vragen, samen goed voor <b>204 punten</b>.</div>'
+      + renderBonus(F,'P') + '</div>';
+  }
+  if(stap===6){
+    var checks = [
+      [stapKlaar(1),'Persoonsgegevens ingevuld'],
+      [stapKlaar(2),'Alle 72 uitslagen ingevuld ('+aantalIngevuld(F)+'/72)'],
+      [stapKlaar(3),'Eindstanden per groep compleet'],
+      [stapKlaar(4),'Knock-outs compleet (juiste aantallen + kampioen)'],
+      [stapKlaar(5),'Alle bonusvragen beantwoord']
+    ];
+    var alles = checks.every(function(c){return c[0];});
+    var warns = koWaarschuwingen();
+    html += '<div class="card"><h2>Inzenden</h2><div class="uitleg">Controleer je formulier. <b>Inzenden is definitief</b> — wijzigen kan daarna niet meer.</div>';
+    checks.forEach(function(c){ html += '<div class="melding '+(c[0]?'ok':'warn')+'">'+(c[0]?'✅ ':'⚠️ ')+c[1]+'</div>'; });
+    warns.forEach(function(w){ html += '<div class="melding warn">🔎 '+esc(w)+'</div>'; });
+    if(!stapKlaar(5)) html += '<div class="klein-grijs" style="margin:6px 0">Onbeantwoorde bonusvragen leveren simpelweg 0 punten op — je mag ook met open vragen inzenden.</div>';
+    var kanInzenden = !LOCKED && !naDeadline() && stapKlaar(1) && stapKlaar(2) && stapKlaar(3) && stapKlaar(4);
+    html += '<div style="margin-top:14px"><button class="btn" id="verstuur" '+(kanInzenden?'':'disabled')+'>📨 Definitief inzenden</button></div>'
+      + '<div id="verstuurMsg"></div></div>';
+  }
+  html += '<div class="nav-onder">'
+    + (stap>1?'<button class="btn ghost" data-goto="'+(stap-1)+'">← Vorige</button>':'<span></span>')
+    + (stap<6?'<button class="btn" data-goto="'+(stap+1)+'">Volgende →</button>':'');
+  html += '</div>';
+  el.innerHTML = html;
+  if(stap===4) toonKoWarn();
+  renderNav();
+  window.scrollTo(0,0);
+}
+
+function renderNav(){
+  var labels = ['Gegevens','Uitslagen','Groepen','Knock-outs','Bonus','Inzenden'];
+  var html = '';
+  for(var i=1;i<=6;i++){
+    var k = (i<6 && stapKlaar(i)) ? ' klaar' : '';
+    html += '<div class="stap'+(stap===i?' actief':'')+k+'" data-goto="'+i+'"><span class="nr">'+(i<6?i:'✓')+'</span>'+labels[i-1]+'</div>';
+  }
+  document.getElementById('steps').innerHTML = html;
+}
+
+function toonKoWarn(){
+  var el = document.getElementById('koWarn'); if(!el) return;
+  var warns = koWaarschuwingen();
+  el.innerHTML = warns.map(function(w){ return '<div class="melding warn">🔎 '+esc(w)+'</div>'; }).join('');
+}
+
+/* ================= EVENTS ================= */
+function pakForm(pref){ return pref==='A' ? AF : F; }
+function naWijziging(pref){ if(pref==='P') bewaar(); }
+
+document.body.addEventListener('input', function(ev){
+  var t = ev.target;
+  if(t.dataset.u){
+    var d = t.dataset.u.split('|'), form = pakForm(d[0]), nr = parseInt(d[1],10);
+    if(!form.uitslagen[nr]) form.uitslagen[nr] = {h:'',u:''};
+    form.uitslagen[nr][d[2]] = t.value;
+    naWijziging(d[0]);
+    var teller = document.getElementById(d[0]==='P'?'wedTeller':'AwedTeller');
+    if(teller) teller.textContent = aantalIngevuld(form)+' / 72 ingevuld';
+    var gk = document.getElementById(d[0]+'gk'+MATCHES[nr-1][1]);
+    if(gk){
+      var g = MATCHES[nr-1][1], klaar=0, tot=0;
+      MATCHES.forEach(function(m){ if(m[1]===g){ tot++; if(uitslagIngevuld(form,m[0])) klaar++; } });
+      gk.textContent = klaar+'/'+tot;
+    }
+  }
+  if(t.dataset.b){
+    var b = t.dataset.b.split('|');
+    pakForm(b[0]).bonus[b[1]] = t.value;
+    naWijziging(b[0]);
+  }
+  if(t.id==='f-naam'){ F.persoon.naam = t.value; bewaar(); }
+  if(t.id==='f-email'){ F.persoon.email = t.value; bewaar(); }
+  if(t.id==='f-opm'){ F.persoon.opm = t.value; bewaar(); }
+});
+
+document.body.addEventListener('change', function(ev){
+  var t = ev.target;
+  if(t.dataset.ko){
+    var d = t.dataset.ko.split('|'), form = pakForm(d[0]), q = d[1], team = d[2];
+    var lijst = form.ko[q] || (form.ko[q]=[]);
+    var max = 0; KO.forEach(function(k){ if(String(k.q)===q) max = k.n; });
+    if(t.checked){
+      if(lijst.length >= max){ t.checked = false; return; }
+      if(lijst.indexOf(team)<0) lijst.push(team);
+    } else {
+      var ix = lijst.indexOf(team); if(ix>=0) lijst.splice(ix,1);
+    }
+    t.closest('.land').classList.toggle('aan', t.checked);
+    var tel = document.getElementById(d[0]+'tel'+q);
+    if(tel){ tel.textContent = lijst.length+' / '+max; tel.className = 'teller '+(lijst.length===max?'ok':'niet'); }
+    naWijziging(d[0]); if(d[0]==='P') toonKoWarn();
+  }
+  if(t.dataset.ko90){
+    pakForm(t.dataset.ko90).ko[90] = t.value;
+    naWijziging(t.dataset.ko90); if(t.dataset.ko90==='P') toonKoWarn();
+  }
+  if(t.dataset.bsel){
+    var b = t.dataset.bsel.split('|');
+    pakForm(b[0]).bonus[b[1]] = t.value;
+    naWijziging(b[0]);
+  }
+});
+
+document.body.addEventListener('click', function(ev){
+  var t = ev.target.closest('[data-goto],[data-swap],[data-jn],[data-prefill],#verstuur');
+  if(!t) return;
+  if(t.dataset.goto){
+    stap = parseInt(t.dataset.goto,10); bewaar(); renderStap(); return;
+  }
+  if(t.dataset.swap){
+    var d = t.dataset.swap.split('|'), form = pakForm(d[0]), g = d[1], i = parseInt(d[2],10);
+    var es = getEindstand(form,g);
+    if(es){ var tmp = es[i]; es[i]=es[i+1]; es[i+1]=tmp; naWijziging(d[0]); }
+    if(d[0]==='P') renderStap(); else renderAdmin();
+    return;
+  }
+  if(t.dataset.jn){
+    if(t.disabled) return;
+    var j = t.dataset.jn.split('|'), form2 = pakForm(j[0]);
+    form2.bonus[j[1]] = j[2];
+    var ouders = t.parentElement.querySelectorAll('.jn');
+    ouders.forEach(function(k){ k.classList.remove('aan'); });
+    t.classList.add('aan');
+    naWijziging(j[0]);
+    return;
+  }
+  if(t.dataset.prefill){
+    var l32 = berekenLaatste32(F);
+    if(l32){ F.ko[85] = l32.slice(); bewaar(); renderStap(); }
+    return;
+  }
+  if(t.id==='verstuur'){ verstuurInzending(); }
+});
+
+/* ================= INZENDEN ================= */
+function verstuurInzending(){
+  var msg = document.getElementById('verstuurMsg');
+  function toon(k,tekst){ msg.innerHTML = '<div class="melding '+k+'">'+tekst+'</div>'; }
+  if(!db){ toon('fout','Geen verbinding met de database. Controleer je internetverbinding en probeer opnieuw.'); return; }
+  if(naDeadline()){ toon('fout','De deadline is verstreken.'); return; }
+  GROEPEN.forEach(function(g){ getEindstand(F,g); }); // eindstanden vastleggen
+  var knop = document.getElementById('verstuur'); knop.disabled = true; knop.textContent = 'Versturen…';
+  db.ref(DB_ROOT+'/inzendingen').once('value').then(function(snap){
+    var bestaand = snap.val() || {};
+    var mijnMail = norm(F.persoon.email);
+    for(var k in bestaand){
+      if(bestaand[k] && bestaand[k].persoon && norm(bestaand[k].persoon.email)===mijnMail){
+        throw new Error('Er is al een inzending met dit e-mailadres ('+F.persoon.email+').');
+      }
+    }
+    var inzending = { persoon:F.persoon, uitslagen:F.uitslagen, es:F.es, ko:F.ko, bonus:F.bonus, ts: firebase.database.ServerValue.TIMESTAMP };
+    return db.ref(DB_ROOT+'/inzendingen').push(inzending);
+  }).then(function(ref){
+    SUBMIT_ID = ref.key; LOCKED = true;
+    try{ localStorage.setItem('wkpool2026_submitted', SUBMIT_ID); }catch(e){}
+    renderStap();
+  }).catch(function(e){
+    knop.disabled = false; knop.textContent = '📨 Definitief inzenden';
+    toon('fout','Inzenden mislukt: '+esc(e.message));
+  });
+}
+
+/* ================= PUNTENTELLING =================
+   form = inzending van deelnemer, W = werkelijkheid (beheerder), ov = overrides {q:1|0} */
+function scoreWedstrijden(form,W){
+  var pts = 0, geteld = 0;
+  MATCHES.forEach(function(m){
+    var nr = m[0];
+    if(!uitslagIngevuld(W,nr) || !uitslagIngevuld(form,nr)) return;
+    geteld++;
+    var w = W.uitslagen[nr], p = form.uitslagen[nr];
+    var wh=parseInt(w.h,10), wu=parseInt(w.u,10), ph=parseInt(p.h,10), pu=parseInt(p.u,10);
+    var basis = 0;
+    if(wh===ph && wu===pu) basis = 3;
+    else if(Math.sign(wh-wu)===Math.sign(ph-pu)) basis = 1;
+    pts += basis * (m[6]?2:1);
+  });
+  return {pts:pts, geteld:geteld};
+}
+function scoreGroepen(form,W){
+  var pts = 0;
+  GROEPEN.forEach(function(g){
+    var wEs = getEindstand(W,g); if(!wEs) return;
+    var pEs = form.es && form.es[g]; if(!Array.isArray(pEs)||pEs.length!==4) return;
+    var goed = true;
+    for(var i=0;i<4;i++){ if(pEs[i]!==wEs[i]){ goed=false; break; } }
+    if(goed) pts += 7;
+  });
+  return pts;
+}
+function scoreKO(form,W){
+  var pts = 0;
+  KO.forEach(function(k){
+    var wL = W.ko && W.ko[k.q] ? W.ko[k.q] : [];
+    var pL = form.ko && form.ko[k.q] ? form.ko[k.q] : [];
+    if(!wL.length) return;
+    var goed = pL.filter(function(t){ return wL.indexOf(t)>=0; }).length;
+    pts += k.schaal[goed] || 0;
+  });
+  if(W.ko && W.ko[90] && form.ko && form.ko[90]===W.ko[90]) pts += 50;
+  return pts;
+}
+function scoreBonusVraag(b,form,W,ov){
+  var w = W.bonus ? W.bonus[b.q] : null;
+  if(w==null || w==='') return null;                       // nog niet bekend
+  if(ov && ov[b.q]===1) return b.p;
+  if(ov && ov[b.q]===0) return 0;
+  var p = form.bonus ? form.bonus[b.q] : null;
+  if(p==null || p==='') return 0;
+  if(b.t==='num'){
+    var wv = parseFloat(String(w).replace(',','.')), pv = parseFloat(String(p).replace(',','.'));
+    if(isNaN(wv)||isNaN(pv)) return 0;
+    var tol = b.tol || 0;
+    if(b.tolPct) tol = Math.abs(wv)*b.tolPct/100;
+    return Math.abs(wv-pv) <= tol + 1e-9 ? b.p : 0;
+  }
+  return norm(w)===norm(p) ? b.p : 0;
+}
+function scoreBonus(form,W,ov){
+  var pts = 0;
+  BONUS.forEach(function(b){ var s = scoreBonusVraag(b,form,W,ov); if(s) pts += s; });
+  return pts;
+}
+function scoreTotaal(form,W,ov){
+  var w = scoreWedstrijden(form,W);
+  var g = scoreGroepen(form,W);
+  var k = scoreKO(form,W);
+  var b = scoreBonus(form,W,ov);
+  return {w:w.pts, geteld:w.geteld, g:g, k:k, b:b, tot:w.pts+g+k+b};
+}
+
+/* ================= BEHEERDER ================= */
+var AF = leegForm();            // werkelijke uitslagen/antwoorden
+var INZ = {};                   // inzendingen {id:form}
+var OVR = {};                   // overrides {id:{q:1|0}}
+var adminOpen = false, adminTab = 'stand', adminDetail = null, adminGeladen = false;
+
+document.getElementById('adminBtn').addEventListener('click', function(){
+  if(adminOpen){ sluitAdmin(); return; }
+  var pw = prompt('Wachtwoord beheerder:');
+  if(pw===null) return;
+  if(pw !== ADMIN_PW){ alert('Onjuist wachtwoord.'); return; }
+  adminOpen = true;
+  document.getElementById('adminWrap').classList.add('open');
+  document.getElementById('adminApp').innerHTML = '<div class="card"><h2>Dashboard</h2><div class="uitleg">Gegevens laden…</div></div>';
+  laadAdmin();
+});
+function sluitAdmin(){
+  adminOpen = false; adminDetail = null;
+  document.getElementById('adminWrap').classList.remove('open');
+}
+
+function laadAdmin(){
+  if(!db){ document.getElementById('adminApp').innerHTML = '<div class="card"><div class="melding fout">Geen databaseverbinding.</div></div>'; return; }
+  db.ref(DB_ROOT).once('value').then(function(snap){
+    var data = snap.val() || {};
+    INZ = data.inzendingen || {};
+    OVR = data.overrides || {};
+    var w = data.werkelijk;
+    AF = leegForm();
+    if(w){
+      AF.uitslagen = w.uitslagen || {};
+      AF.es = w.es || {};
+      AF.ko = w.ko || {85:[],86:[],87:[],88:[],89:[],90:''};
+      AF.bonus = w.bonus || {};
+    }
+    ['85','86','87','88','89'].forEach(function(k){ if(!Array.isArray(AF.ko[k])) AF.ko[k]=[]; });
+    if(AF.ko[90]==null) AF.ko[90]='';
+    adminGeladen = true;
+    renderAdmin();
+  });
+}
+function bewaarWerkelijk(){
+  GROEPEN.forEach(function(g){ getEindstand(AF,g); });
+  db.ref(DB_ROOT+'/werkelijk').set({ uitslagen:AF.uitslagen, es:AF.es, ko:AF.ko, bonus:AF.bonus, ts: firebase.database.ServerValue.TIMESTAMP })
+    .then(function(){ var el=document.getElementById('werkMsg'); if(el) el.innerHTML='<div class="melding ok">✅ Werkelijke uitslagen opgeslagen. De tussenstand is bijgewerkt.</div>'; })
+    .catch(function(e){ var el=document.getElementById('werkMsg'); if(el) el.innerHTML='<div class="melding fout">Opslaan mislukt: '+esc(e.message)+'</div>'; });
+}
+function zetOverride(id,q,val){
+  if(!OVR[id]) OVR[id] = {};
+  if(val===null){ delete OVR[id][q]; db.ref(DB_ROOT+'/overrides/'+id+'/'+q).remove(); }
+  else { OVR[id][q] = val; db.ref(DB_ROOT+'/overrides/'+id+'/'+q).set(val); }
+  renderAdmin();
+}
+
+function rangschik(){
+  var lijst = [];
+  for(var id in INZ){
+    var f = INZ[id]; if(!f || !f.persoon) continue;
+    if(!f.ko) f.ko = {}; if(!f.bonus) f.bonus = {}; if(!f.uitslagen) f.uitslagen = {}; if(!f.es) f.es = {};
+    ['85','86','87','88','89'].forEach(function(k){ if(!Array.isArray(f.ko[k])) f.ko[k]=[]; });
+    lijst.push({ id:id, f:f, s:scoreTotaal(f, AF, OVR[id]||{}) });
+  }
+  lijst.sort(function(a,b){ return b.s.tot - a.s.tot || a.f.persoon.naam.localeCompare(b.f.persoon.naam,'nl'); });
+  return lijst;
+}
+
+function renderAdmin(){
+  if(!adminGeladen) return;
+  var el = document.getElementById('adminApp');
+  var html = '<div class="admin-tabs">'
+    + '<button class="atab'+(adminTab==='stand'?' actief':'')+'" data-atab="stand">🏆 Tussenstand</button>'
+    + '<button class="atab'+(adminTab==='deelnemers'?' actief':'')+'" data-atab="deelnemers">👥 Deelnemers ('+Object.keys(INZ).length+')</button>'
+    + '<button class="atab'+(adminTab==='werkelijk'?' actief':'')+'" data-atab="werkelijk">⚽ Uitslagen invoeren</button>'
+    + '<button class="atab" data-atab="sluit">✕ Sluiten</button></div>';
+
+  if(adminTab==='stand'){
+    var lijst = rangschik();
+    html += '<div class="card"><h2>Tussenstand</h2>'
+      + '<div class="uitleg">Punten op basis van de tot nu toe ingevoerde werkelijke uitslagen ('+aantalIngevuld(AF)+'/72 wedstrijden bekend).</div>';
+    if(!lijst.length) html += '<div class="melding warn">Nog geen inzendingen.</div>';
+    else {
+      html += '<table class="stand"><tr><th>#</th><th>Naam</th><th class="r">Wedstr.</th><th class="r">Groepen</th><th class="r">Knock-out</th><th class="r">Bonus</th><th class="r">Totaal</th></tr>';
+      lijst.forEach(function(r,i){
+        html += '<tr><td>'+(i+1)+'</td><td><b>'+esc(r.f.persoon.naam)+'</b></td>'
+          + '<td class="r">'+r.s.w+'</td><td class="r">'+r.s.g+'</td><td class="r">'+r.s.k+'</td><td class="r">'+r.s.b+'</td>'
+          + '<td class="r"><span class="score-pill">'+r.s.tot+'</span></td></tr>';
+      });
+      html += '</table>';
+    }
+    html += '</div>';
+  }
+
+  if(adminTab==='deelnemers' && !adminDetail){
+    var lijst2 = rangschik();
+    html += '<div class="card"><h2>Deelnemers</h2>';
+    if(!lijst2.length) html += '<div class="melding warn">Nog geen inzendingen.</div>';
+    lijst2.forEach(function(r){
+      var d = r.f.ts ? new Date(r.f.ts).toLocaleString('nl-NL') : '';
+      html += '<div class="deelnemer-rij" data-detail="'+r.id+'"><div><b>'+esc(r.f.persoon.naam)+'</b><br><span class="klein-grijs">'+esc(r.f.persoon.email)+' · '+d+'</span></div>'
+        + '<span class="score-pill">'+r.s.tot+'</span></div>';
+    });
+    html += '</div>';
+  }
+
+  if(adminTab==='deelnemers' && adminDetail){
+    var f = INZ[adminDetail], ov = OVR[adminDetail]||{};
+    if(!f){ adminDetail=null; renderAdmin(); return; }
+    var s = scoreTotaal(f, AF, ov);
+    html += '<div class="card"><button class="btn klein ghost" data-terug="1">← Terug naar lijst</button>'
+      + '<h2 style="margin-top:10px">'+esc(f.persoon.naam)+' — '+s.tot+' punten</h2>'
+      + '<div class="uitleg">'+esc(f.persoon.email)+(f.persoon.opm?' · “'+esc(f.persoon.opm)+'”':'')+'</div>'
+      + '<div class="kolom2"><div>Wedstrijden: <b>'+s.w+'</b></div><div>Groepen: <b>'+s.g+'</b></div><div>Knock-out: <b>'+s.k+'</b></div><div>Bonus: <b>'+s.b+'</b></div></div>';
+
+    html += '<h3>Uitslagen (voorspelling vs. werkelijk)</h3><div class="kolom2">';
+    MATCHES.forEach(function(m){
+      var p = f.uitslagen[m[0]], w = AF.uitslagen[m[0]];
+      var ptxt = (p&&isGetal(p.h)&&isGetal(p.u)) ? p.h+'–'+p.u : '—';
+      var wtxt = (w&&isGetal(w.h)&&isGetal(w.u)) ? ' <span class="klein-grijs">(echt: '+w.h+'–'+w.u+')</span>' : '';
+      html += '<div>'+m[0]+'. '+esc(m[4])+'–'+esc(m[5])+(m[6]?' <span class="mp">2×</span>':'')+': <b>'+ptxt+'</b>'+wtxt+'</div>';
+    });
+    html += '</div><h3>Eindstanden per groep</h3><div class="kolom2">';
+    GROEPEN.forEach(function(g){
+      var es = f.es && f.es[g] ? f.es[g].join(' · ') : '—';
+      html += '<div><b>'+g+':</b> '+esc(es)+'</div>';
+    });
+    html += '</div><h3>Knock-outs</h3>';
+    KO.forEach(function(k){
+      html += '<div style="margin-bottom:6px"><b>'+k.titel+':</b> '+esc((f.ko[k.q]||[]).join(', ')||'—')+'</div>';
+    });
+    html += '<div><b>Kampioen:</b> '+esc(f.ko[90]||'—')+'</div>';
+    html += '<h3>Bonusvragen</h3>';
+    BONUS.forEach(function(b){
+      var sc = scoreBonusVraag(b,f,AF,ov);
+      var status = sc===null ? '<span class="klein-grijs">nog niet bekend</span>' : (sc>0 ? '<b style="color:var(--groen)">+'+sc+'</b>' : '<b style="color:var(--rood)">0</b>');
+      var o = ov[b.q];
+      html += '<div class="bvraag"><div class="bv-tekst">'+b.q+'. '+esc(b.v)+'</div>'
+        + '<div class="bv-sub">Antwoord: <b>'+esc(f.bonus[b.q]||'—')+'</b>'
+        + (AF.bonus[b.q]!=null&&AF.bonus[b.q]!==''?' · Werkelijk: <b>'+esc(AF.bonus[b.q])+'</b>':'')
+        + ' · '+status
+        + '<span class="ovr">'
+        + '<button data-ovr="'+adminDetail+'|'+b.q+'|1" class="'+(o===1?'aan':'')+'">✓ goed</button>'
+        + '<button data-ovr="'+adminDetail+'|'+b.q+'|0" class="'+(o===0?'aan':'')+'">✗ fout</button>'
+        + '<button data-ovr="'+adminDetail+'|'+b.q+'|x" class="'+(o==null?'aan':'')+'">auto</button>'
+        + '</span></div></div>';
+    });
+    html += '</div>';
+  }
+
+  if(adminTab==='werkelijk'){
+    html += '<div class="card"><h2>Werkelijke uitslagen</h2>'
+      + '<div class="uitleg">Vul hier in wat er écht gebeurt op het WK. Na <b>Opslaan</b> wordt de tussenstand automatisch herberekend. Je hoeft niet alles in één keer te doen — alleen ingevulde onderdelen tellen mee.</div>'
+      + '<div id="werkMsg"></div>'
+      + '<button class="btn" data-bewaarwerk="1">💾 Opslaan</button>'
+      + '<h3>Groepswedstrijden</h3><div class="voortgang" id="AwedTeller">'+aantalIngevuld(AF)+' / 72 ingevuld</div>'
+      + renderWedstrijden(AF,'A')
+      + '<h3 style="margin-top:22px">Werkelijke eindstanden</h3>'
+      + renderEindstanden(AF,'A')
+      + '<h3 style="margin-top:22px">Knock-outfase (werkelijk)</h3>'
+      + renderKO(AF,'A')
+      + '<h3 style="margin-top:22px">Bonusvragen (werkelijke antwoorden)</h3>'
+      + renderBonus(AF,'A')
+      + '<div style="margin-top:16px"><button class="btn" data-bewaarwerk="1">💾 Opslaan</button></div>'
+      + '</div>';
+  }
+  el.innerHTML = html;
+}
+
+document.getElementById('adminApp').addEventListener('click', function(ev){
+  var t = ev.target.closest('[data-atab],[data-detail],[data-terug],[data-ovr],[data-bewaarwerk]');
+  if(!t) return;
+  if(t.dataset.atab){
+    if(t.dataset.atab==='sluit'){ sluitAdmin(); return; }
+    adminTab = t.dataset.atab; adminDetail = null; renderAdmin();
+    document.getElementById('adminWrap').scrollTo(0,0); return;
+  }
+  if(t.dataset.detail){ adminDetail = t.dataset.detail; renderAdmin(); return; }
+  if(t.dataset.terug){ adminDetail = null; renderAdmin(); return; }
+  if(t.dataset.ovr){
+    var d = t.dataset.ovr.split('|');
+    zetOverride(d[0], d[1], d[2]==='x' ? null : parseInt(d[2],10));
+    return;
+  }
+  if(t.dataset.bewaarwerk){ bewaarWerkelijk(); }
+});
+
+/* ================= START ================= */
+renderStap();
+</script>
+</body>
+</html>
