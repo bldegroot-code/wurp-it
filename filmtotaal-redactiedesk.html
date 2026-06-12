@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FilmTotaal · Redactiedesk</title>
+
+<!-- Tailwind CSS via CDN (prototype-fase; later vervangen door build-versie) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+// ============================================================
+// TAILWIND CONFIG — FilmTotaal kleurenpalet
+// Diep donkerblauw + rood accent, rustige Google-achtige basis
+// ============================================================
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ft: {
+          navy:  '#0C2240',  // FilmTotaal donkerblauw (topbar, koppen)
+          blue:  '#16407A',  // secundair blauw (actieve states)
+          red:   '#E2231A',  // FilmTotaal rood (accenten, waarschuwingen)
+          paper: '#F6F8FA',  // rustige achtergrond (Google-grijs)
+          line:  '#E3E8EE'   // scheidingslijnen
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  /* Subtiele, rustige details die Tailwind-classes aanvullen */
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .kaart { background:#fff; border:1px solid #E3E8EE; border-radius:12px; }
+  .kaart-kop { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #E3E8EE; }
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb { background:#CBD5E1; border-radius:8px; }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
+  .fade-uit { opacity:0; transform:translateX(8px); transition:all .25s ease; }
+  details > summary { list-style:none; cursor:pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+</style>
+</head>
+
+<body class="bg-ft-paper text-slate-800 min-h-screen">
+
+<!-- ============================================================
+     TOPBAR — FilmTotaal-navy met rode accentlijn
+============================================================ -->
+<header class="bg-ft-navy text-white sticky top-0 z-40 shadow-sm">
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="bg-ft-red text-white font-extrabold text-sm px-2.5 py-1 rounded">FT</div>
+      <div>
+        <h1 class="font-bold text-base sm:text-lg leading-tight">Redactiedesk</h1>
+        <p class="text-xs text-slate-300 hidden sm:block">Eindredactie · FilmTotaal</p>
+      </div>
+    </div>
+    <div class="text-right">
+      <p id="topbarDatum" class="text-sm font-medium"></p>
+      <p id="topbarTijd" class="text-xs text-slate-300"></p>
+    </div>
+  </div>
+  <div class="h-0.5 bg-ft-red"></div>
+</header>
+
+<main class="max-w-screen-2xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+  <!-- ============================================================
+       BLOK 1 · COMMUNICATIE — Gmail & Slack naast elkaar
+  ============================================================ -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Gmail blok -->
+    <div class="kaart">
+      <div class="kaart-kop">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">📧</span>
+          <h2 class="font-semibold text-ft-navy">Gmail</h2>
+          <span id="mailTeller" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium"></span>
+        </div>
+        <span class="text-xs text-slate-400">recente mails</span>
+      </div>
+      <ul id="mailLijst" class="divide-y divide-ft-line max-h-96 overflow-y-auto"></ul>
+    </div>
+
+    <!-- Slack blok -->
+    <div class="kaart">
+      <div class="kaart-kop">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">💬</span>
+          <h2 class="font-semibold text-ft-navy">Slack</h2>
+          <span id="slackTeller" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium"></span>
+        </div>
+        <span class="text-xs text-slate-400">recente berichten</span>
+      </div>
+      <ul id="slackLijst" class="divide-y divide-ft-line max-h-96 overflow-y-auto"></ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOK 2 · VOORRAAD PER CATEGORIE — rustige counters
+  ============================================================ -->
+  <section class="kaart">
+    <div class="kaart-kop">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">📦</span>
+        <h2 class="font-semibold text-ft-navy">Voorraad vandaag</h2>
+      </div>
+      <span class="text-xs text-slate-400">beschikbare artikelen per categorie</span>
+    </div>
+    <div id="voorraadGrid" class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-px bg-ft-line"></div>
+  </section>
+
+  <!-- ============================================================
+       BLOK 2b · DAGELIJKSE PLANNING — 7 dagen vooruit
+  ============================================================ -->
+  <section class="kaart">
+    <div class="kaart-kop">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🗓️</span>
+        <h2 class="font-semibold text-ft-navy">Dagelijkse planning</h2>
+      </div>
+      <span class="text-xs text-slate-400">komende 7 dagen</span>
+    </div>
+    <!-- Dag-keuzechips -->
+    <div id="dagChips" class="flex gap-2 overflow-x-auto px-4 sm:px-5 py-3 border-b border-ft-line"></div>
+    <!-- Artikelen van de gekozen dag -->
+    <ul id="planningLijst" class="divide-y divide-ft-line"></ul>
+  </section>
+
+  <!-- ============================================================
+       BLOK 3 · STATISTIEKEN & PERFORMANCE ALERTS
+  ============================================================ -->
+  <section class="kaart">
+    <div class="kaart-kop">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">📊</span>
+        <h2 class="font-semibold text-ft-navy">Net online · performance</h2>
+      </div>
+      <span class="text-xs text-slate-400">waarschuwing bij &lt; 6 uur online én &lt; 1000 views</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs uppercase tracking-wide text-slate-400 border-b border-ft-line">
+            <th class="px-5 py-3 font-medium">Artikel</th>
+            <th class="px-5 py-3 font-medium">Auteur</th>
+            <th class="px-5 py-3 font-medium">Gepubliceerd</th>
+            <th class="px-5 py-3 font-medium text-right">Views</th>
+            <th class="px-5 py-3 font-medium">Alert</th>
+          </tr>
+        </thead>
+        <tbody id="statsTabel" class="divide-y divide-ft-line"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOK 4 · DUMMY DATA BEHEER — subtiel afgeschermd onderaan
+  ============================================================ -->
+  <details class="kaart border-dashed">
+    <summary class="px-5 py-4 flex items-center justify-between text-slate-500 hover:text-ft-navy transition-colors">
+      <span class="flex items-center gap-2 text-sm font-medium">🔧 Dummy Data Beheer <span class="text-xs font-normal text-slate-400">(alleen testfase)</span></span>
+      <span class="text-xs">openklappen ▾</span>
+    </summary>
+    <div class="border-t border-ft-line p-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+      <!-- Nieuwe mail -->
+      <div class="space-y-2">
+        <h3 class="text-sm font-semibold text-ft-navy">📧 Mail toevoegen</h3>
+        <select id="fMailVan" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+        <input id="fMailOnderwerp" type="text" placeholder="Onderwerp…" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2">
+        <button onclick="voegMailToe()" class="w-full bg-ft-blue hover:bg-ft-navy text-white text-sm font-medium rounded-lg py-2 transition-colors">Mail toevoegen</button>
+      </div>
+
+      <!-- Nieuw Slack-bericht -->
+      <div class="space-y-2">
+        <h3 class="text-sm font-semibold text-ft-navy">💬 Slack-bericht toevoegen</h3>
+        <select id="fSlackVan" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+        <input id="fSlackBericht" type="text" placeholder="Bericht…" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2">
+        <button onclick="voegSlackToe()" class="w-full bg-ft-blue hover:bg-ft-navy text-white text-sm font-medium rounded-lg py-2 transition-colors">Bericht toevoegen</button>
+      </div>
+
+      <!-- Nieuw statistiek-artikel (test 6-uurswaarschuwing) -->
+      <div class="space-y-2">
+        <h3 class="text-sm font-semibold text-ft-navy">📊 Statistiek-artikel toevoegen</h3>
+        <input id="fStatTitel" type="text" placeholder="Koptitel…" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2">
+        <select id="fStatAuteur" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+        <div class="flex gap-2">
+          <input id="fStatUren" type="number" min="0" step="0.5" placeholder="Uren online" class="w-1/2 text-sm border border-ft-line rounded-lg px-3 py-2">
+          <input id="fStatViews" type="number" min="0" placeholder="Views" class="w-1/2 text-sm border border-ft-line rounded-lg px-3 py-2">
+        </div>
+        <button onclick="voegStatToe()" class="w-full bg-ft-blue hover:bg-ft-navy text-white text-sm font-medium rounded-lg py-2 transition-colors">Artikel toevoegen</button>
+        <p class="text-xs text-slate-400">Tip: kies &lt; 6 uur én &lt; 1000 views om de rode alert te testen.</p>
+      </div>
+
+      <!-- Nieuw planningsartikel -->
+      <div class="space-y-2">
+        <h3 class="text-sm font-semibold text-ft-navy">🗓️ Planningsartikel toevoegen</h3>
+        <input id="fPlanTitel" type="text" placeholder="Koptitel…" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2">
+        <div class="flex gap-2">
+          <select id="fPlanAuteur" class="w-1/2 text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+          <select id="fPlanCategorie" class="w-1/2 text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+        </div>
+        <select id="fPlanDag" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 bg-white"></select>
+        <button onclick="voegPlanningToe()" class="w-full bg-ft-blue hover:bg-ft-navy text-white text-sm font-medium rounded-lg py-2 transition-colors">Inplannen</button>
+      </div>
+    </div>
+  </details>
+</main>
+
+<!-- Dummy pop-up voor "Aanpassen" -->
+<div id="modal" class="fixed inset-0 bg-ft-navy/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+    <div class="flex items-start justify-between">
+      <h3 class="font-semibold text-ft-navy">Artikel aanpassen</h3>
+      <button onclick="sluitModal()" class="text-slate-400 hover:text-ft-red text-lg leading-none">✕</button>
+    </div>
+    <p class="text-xs text-slate-400">Dummy-formulier — wijzigingen worden in de testfase niet opgeslagen in het CMS.</p>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs font-medium text-slate-500">Koptitel</label>
+        <input id="modalTitel" type="text" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 mt-1">
+      </div>
+      <div>
+        <label class="text-xs font-medium text-slate-500">Status</label>
+        <select id="modalStatus" class="w-full text-sm border border-ft-line rounded-lg px-3 py-2 mt-1 bg-white">
+          <option>Pending</option>
+          <option>Geplaatst</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex gap-2 justify-end pt-2">
+      <button onclick="sluitModal()" class="text-sm px-4 py-2 rounded-lg border border-ft-line hover:bg-slate-50">Annuleren</button>
+      <button onclick="slaModalOp()" class="text-sm px-4 py-2 rounded-lg bg-ft-red hover:bg-red-700 text-white font-medium">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toastmeldingen -->
+<div id="toastHouder" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+<script>
+/* ============================================================
+   FILMTOTAAL REDACTIEDESK — PROTOTYPE (dummy-fase)
+   Alle data hieronder is hardcoded testdata.
+   Zoek op "TODO:" voor de plekken waar echte API's komen.
+============================================================ */
+
+// ------------------------------------------------------------
+// 0. BASISGEGEVENS — redactie & categorieën
+// ------------------------------------------------------------
+const REDACTEUREN = {
+  'Arjen':   ['Nieuws'],
+  'Wouter':  ['Nieuws', 'Features'],
+  'Emelyne': ['Features'],
+  'Zilko':   ['Nieuws'],
+  'Bram':    ['Nieuws', 'Netflix', 'Features'],
+  'Colijn':  ['Features'],
+  'Vera':    ['Buzz'],
+  'Zoe':     ['Netflix']
+};
+const CATEGORIEEN = ['Nieuws', 'Features', 'Netflix', 'Buzz', 'Trailers', 'Video', 'Televisie', "Foto's"];
+const DAGNAMEN = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+const MAANDEN = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+
+const NU = new Date(); // momentopname; waarschuwingen worden alléén bij laden/toevoegen berekend
+let idTeller = 1000;
+const nieuwId = () => ++idTeller;
+
+// ------------------------------------------------------------
+// 1. DUMMY DATA — Gmail
+// TODO: API Endpoint voor Gmail (OAuth 2.0)
+//       GET https://gmail.googleapis.com/gmail/v1/users/me/messages
+// ------------------------------------------------------------
+async function fetchFromGmailAPI() {
+  // TODO: vervang door echte fetch() met OAuth-token
+  return [
+    { id: nieuwId(), van: 'Wouter',  onderwerp: 'Feature-concept: 25 jaar Gladiator — kun je even meelezen?', tijd: '09:12', gepind: false },
+    { id: nieuwId(), van: 'Zoe',     onderwerp: 'Netflix-embargo nieuwe Stranger Things-spinoff (vrijdag 10:00)', tijd: '08:47', gepind: false },
+    { id: nieuwId(), van: 'Arjen',   onderwerp: 'Persbericht Pathé: releasedatum verschoven', tijd: '08:31', gepind: false },
+    { id: nieuwId(), van: 'Emelyne', onderwerp: 'Interview-aanvraag regisseur goedgekeurd 🎬', tijd: 'gisteren', gepind: false },
+    { id: nieuwId(), van: 'Colijn',  onderwerp: 'Eerste versie essay over A24 staat in de drive', tijd: 'gisteren', gepind: false }
+  ];
+}
+
+// ------------------------------------------------------------
+// 2. DUMMY DATA — Slack
+// TODO: Slack Web API (conversations.history) + OAuth-scopes
+// ------------------------------------------------------------
+async function fetchFromSlackAPI() {
+  // TODO: vervang door echte fetch() naar https://slack.com/api/conversations.history
+  return [
+    { id: nieuwId(), van: 'Vera',   kanaal: '#buzz',     bericht: 'Virale TikTok over de nieuwe Dune-trailer — pak ik op?', tijd: '09:20', gepind: false },
+    { id: nieuwId(), van: 'Zilko',  kanaal: '#nieuws',   bericht: 'Casting-nieuws Marvel net binnen, zet ik er nu op', tijd: '09:05', gepind: false },
+    { id: nieuwId(), van: 'Bram',   kanaal: '#netflix',  bericht: 'Top 10 NL net ververst — twee nieuwe binnenkomers', tijd: '08:52', gepind: false },
+    { id: nieuwId(), van: 'Wouter', kanaal: '#redactie', bericht: 'Weekplanning features staat in de sheet 👍', tijd: '08:30', gepind: false },
+    { id: nieuwId(), van: 'Arjen',  kanaal: '#nieuws',   bericht: 'Box office NL cijfers van het weekend zijn binnen', tijd: '08:15', gepind: false }
+  ];
+}
+
+// ------------------------------------------------------------
+// 3. DUMMY DATA — Voorraad & planning
+// TODO: API Endpoint voor CMS (voorraad + planning ophalen)
+// ------------------------------------------------------------
+const voorraad = {
+  'Nieuws': 7, 'Features': 3, 'Netflix': 4, 'Buzz': 2,
+  'Trailers': 5, 'Video': 1, 'Televisie': 3, "Foto's": 6
+};
+
+// Koptitels per categorie voor realistische dummy-planning
+const KOPPEN = {
+  'Nieuws':    ['Nieuwe Christopher Nolan-film krijgt releasedatum', 'Warner schuift blockbuster naar de zomer', 'Eerste recensies geven sciencefictionfilm hoge scores'],
+  'Features':  ['Waarom de filmzomer van 2026 historisch wordt', 'De 10 beste thrillers van het decennium tot nu toe', 'Hoe A24 het horrorgenre opnieuw uitvond'],
+  'Netflix':   ['Dit verdwijnt volgende week van Netflix', 'Netflix Top 10: deze film staat verrassend op 1', 'Nieuwe Nederlandse Netflix-serie krijgt tweede seizoen'],
+  'Buzz':      ['Acteur reageert hilarisch op viraal filmpje', 'Deze fan-theorie zet de filmwereld op zijn kop', 'Bizarre blooper opgedoken uit kaskraker'],
+  'Trailers':  ['Eerste trailer langverwachte sequel is los', 'Nieuwe trailer toont eindelijk de schurk', 'Teaser kondigt terugkeer van cultfranchise aan'],
+  'Video':     ['Video: alles wat je moet weten over de Oscarrace', 'Video-essay: het geheim van de perfecte openingsscène'],
+  'Televisie': ['HBO-hitserie krijgt verfilming', 'Deze series gaan in juli van start', 'Kijkcijferrecord voor finale van dramaserie'],
+  "Foto's":    ['Eerste setfoto\'s grote fantasyproductie gelekt', 'Fotoserie: de première in beeld']
+};
+
+function maakPlanning() {
+  // Genereert per dag (0 = vandaag … 6) een lijst dummy-artikelen
+  const planning = {};
+  const auteurs = Object.keys(REDACTEUREN);
+  for (let d = 0; d < 7; d++) {
+    planning[d] = [];
+    const aantal = d === 0 ? 5 : 3 + (d % 3);
+    for (let i = 0; i < aantal; i++) {
+      // Kies categorie + passende auteur
+      const cat = CATEGORIEEN[(d * 3 + i) % CATEGORIEEN.length];
+      const passend = auteurs.filter(a => REDACTEUREN[a].includes(cat));
+      const auteur = passend.length ? passend[(d + i) % passend.length] : auteurs[(d + i) % auteurs.length];
+      const koppen = KOPPEN[cat];
+      planning[d].push({
+        id: nieuwId(),
+        status: d === 0 && i < 2 ? 'Geplaatst' : 'Pending',
+        auteur, categorie: cat,
+        titel: koppen[(d + i) % koppen.length],
+        seed: `ft${d}${i}`,
+        gezien: false
+      });
+    }
+  }
+  return planning;
+}
+
+// ------------------------------------------------------------
+// 4. DUMMY DATA — Statistieken (net online)
+// TODO: API Endpoint voor analytics (bijv. GA4 / Plausible / Matomo)
+// ------------------------------------------------------------
+function maakStats() {
+  const maak = (titel, auteur, urenGeleden, views) => ({
+    id: nieuwId(), titel, auteur, views,
+    gepubliceerd: new Date(NU.getTime() - urenGeleden * 3600 * 1000)
+  });
+  return [
+    maak('Eerste trailer langverwachte sequel is los', 'Zilko', 2, 640),     // < 6u én < 1000 → alert
+    maak('Netflix Top 10: deze film staat verrassend op 1', 'Bram', 3, 2850),
+    maak('Acteur reageert hilarisch op viraal filmpje', 'Vera', 5, 420),     // < 6u én < 1000 → alert
+    maak('Waarom de filmzomer van 2026 historisch wordt', 'Emelyne', 8, 760),
+    maak('Nieuwe Christopher Nolan-film krijgt releasedatum', 'Arjen', 1, 1980),
+    maak('HBO-hitserie krijgt verfilming', 'Wouter', 7, 3120)
+  ];
+}
+
+// ------------------------------------------------------------
+// CENTRALE STATE (in-memory; reset bij verversen — testfase)
+// ------------------------------------------------------------
+const state = { mails: [], slack: [], planning: maakPlanning(), stats: maakStats(), actieveDag: 0 };
+
+// ------------------------------------------------------------
+// HULPFUNCTIES
+// ------------------------------------------------------------
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(tekst, rood = false) {
+  const el = document.createElement('div');
+  el.className = `text-sm text-white px-4 py-2.5 rounded-lg shadow-lg ${rood ? 'bg-ft-red' : 'bg-ft-navy'}`;
+  el.textContent = tekst;
+  document.getElementById('toastHouder').appendChild(el);
+  setTimeout(() => { el.classList.add('fade-uit'); setTimeout(() => el.remove(), 300); }, 2600);
+}
+
+function gesorteerd(lijst) {
+  // Gepinde items bovenaan, verder oorspronkelijke volgorde
+  return [...lijst].sort((a, b) => (b.gepind === true) - (a.gepind === true));
+}
+
+// ------------------------------------------------------------
+// RENDER · GMAIL
+// ------------------------------------------------------------
+function renderMails() {
+  const ul = document.getElementById('mailLijst');
+  document.getElementById('mailTeller').textContent = state.mails.length;
+  if (!state.mails.length) {
+    ul.innerHTML = '<li class="px-5 py-8 text-sm text-slate-400 text-center">Inbox leeg — voeg testdata toe via Dummy Data Beheer.</li>';
+    return;
+  }
+  ul.innerHTML = gesorteerd(state.mails).map(m => `
+    <li id="mail-${m.id}" class="flex items-center gap-3 px-4 sm:px-5 py-3 hover:bg-slate-50 transition-colors ${m.gepind ? 'bg-blue-50/60' : ''}">
+      <!-- TODO: echte Gmail-deeplink: https://mail.google.com/mail/u/0/#inbox/{messageId} -->
+      <a href="https://mail.google.com/" target="_blank" rel="noopener" class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-slate-800 truncate">${m.gepind ? '📌 ' : ''}${esc(m.onderwerp)}</p>
+        <p class="text-xs text-slate-400 mt-0.5">${esc(m.van)} · ${esc(m.tijd)}</p>
+      </a>
+      <div class="flex gap-1 shrink-0">
+        <button onclick="pinMail(${m.id})" title="${m.gepind ? 'Losmaken' : 'Prioriteren'}"
+          class="text-xs px-2.5 py-1.5 rounded-lg border ${m.gepind ? 'border-ft-blue text-ft-blue bg-blue-50' : 'border-ft-line text-slate-500 hover:border-ft-blue hover:text-ft-blue'} transition-colors">📌</button>
+        <button onclick="verwijderMail(${m.id})" title="Verwijderen"
+          class="text-xs px-2.5 py-1.5 rounded-lg border border-ft-line text-slate-500 hover:border-ft-red hover:text-ft-red transition-colors">🗑️</button>
+      </div>
+    </li>`).join('');
+}
+function pinMail(id) {
+  const m = state.mails.find(x => x.id === id);
+  m.gepind = !m.gepind;
+  renderMails();
+  toast(m.gepind ? 'Mail geprioriteerd' : 'Prioriteit verwijderd');
+}
+function verwijderMail(id) {
+  const el = document.getElementById(`mail-${id}`);
+  el.classList.add('fade-uit');
+  setTimeout(() => { state.mails = state.mails.filter(x => x.id !== id); renderMails(); }, 250);
+}
+
+// ------------------------------------------------------------
+// RENDER · SLACK
+// ------------------------------------------------------------
+function renderSlack() {
+  const ul = document.getElementById('slackLijst');
+  document.getElementById('slackTeller').textContent = state.slack.length;
+  if (!state.slack.length) {
+    ul.innerHTML = '<li class="px-5 py-8 text-sm text-slate-400 text-center">Geen berichten — voeg testdata toe via Dummy Data Beheer.</li>';
+    return;
+  }
+  ul.innerHTML = gesorteerd(state.slack).map(s => `
+    <li id="slack-${s.id}" class="flex items-center gap-3 px-4 sm:px-5 py-3 hover:bg-slate-50 transition-colors ${s.gepind ? 'bg-blue-50/60' : ''}">
+      <!-- TODO: echte Slack-deeplink: https://app.slack.com/client/{team}/{channel}/{ts} -->
+      <a href="https://slack.com/" target="_blank" rel="noopener" class="flex-1 min-w-0">
+        <p class="text-sm text-slate-800 truncate">${s.gepind ? '📌 ' : ''}${esc(s.bericht)}</p>
+        <p class="text-xs text-slate-400 mt-0.5"><span class="font-medium text-slate-500">${esc(s.van)}</span> in ${esc(s.kanaal)} · ${esc(s.tijd)}</p>
+      </a>
+      <div class="flex gap-1 shrink-0">
+        <button onclick="pinSlack(${s.id})" title="${s.gepind ? 'Losmaken' : 'Prioriteren'}"
+          class="text-xs px-2.5 py-1.5 rounded-lg border ${s.gepind ? 'border-ft-blue text-ft-blue bg-blue-50' : 'border-ft-line text-slate-500 hover:border-ft-blue hover:text-ft-blue'} transition-colors">📌</button>
+        <button onclick="verwijderSlack(${s.id})" title="Verwijderen"
+          class="text-xs px-2.5 py-1.5 rounded-lg border border-ft-line text-slate-500 hover:border-ft-red hover:text-ft-red transition-colors">🗑️</button>
+      </div>
+    </li>`).join('');
+}
+function pinSlack(id) {
+  const s = state.slack.find(x => x.id === id);
+  s.gepind = !s.gepind;
+  renderSlack();
+  toast(s.gepind ? 'Bericht geprioriteerd' : 'Prioriteit verwijderd');
+}
+function verwijderSlack(id) {
+  const el = document.getElementById(`slack-${id}`);
+  el.classList.add('fade-uit');
+  setTimeout(() => { state.slack = state.slack.filter(x => x.id !== id); renderSlack(); }, 250);
+}
+
+// ------------------------------------------------------------
+// RENDER · VOORRAAD
+// ------------------------------------------------------------
+function renderVoorraad() {
+  document.getElementById('voorraadGrid').innerHTML = CATEGORIEEN.map(cat => {
+    const n = voorraad[cat];
+    const laag = n <= 2; // subtiele rode hint bij lage voorraad
+    return `
+      <div class="bg-white px-4 py-4 text-center">
+        <p class="text-2xl font-bold ${laag ? 'text-ft-red' : 'text-ft-navy'}">${n}</p>
+        <p class="text-xs text-slate-500 mt-1">${esc(cat)}</p>
+        ${laag ? '<p class="text-[10px] text-ft-red font-medium mt-0.5">voorraad laag</p>' : ''}
+      </div>`;
+  }).join('');
+}
+
+// ------------------------------------------------------------
+// RENDER · PLANNING (7 dagen)
+// ------------------------------------------------------------
+function dagLabel(offset) {
+  const d = new Date(NU.getTime() + offset * 86400000);
+  if (offset === 0) return 'Vandaag';
+  if (offset === 1) return 'Morgen';
+  return DAGNAMEN[d.getDay()].slice(0, 2) + ' ' + d.getDate() + ' ' + MAANDEN[d.getMonth()].slice(0, 3);
+}
+function renderDagChips() {
+  document.getElementById('dagChips').innerHTML = Array.from({ length: 7 }, (_, d) => `
+    <button onclick="kiesDag(${d})"
+      class="shrink-0 text-xs font-medium px-3.5 py-1.5 rounded-full border transition-colors
+      ${state.actieveDag === d ? 'bg-ft-navy text-white border-ft-navy' : 'border-ft-line text-slate-600 hover:border-ft-blue hover:text-ft-blue bg-white'}">
+      ${dagLabel(d)} <span class="opacity-60">· ${state.planning[d].length}</span>
+    </button>`).join('');
+}
+function kiesDag(d) { state.actieveDag = d; renderDagChips(); renderPlanning(); }
+
+function renderPlanning() {
+  const lijst = state.planning[state.actieveDag];
+  const ul = document.getElementById('planningLijst');
+  if (!lijst.length) {
+    ul.innerHTML = '<li class="px-5 py-8 text-sm text-slate-400 text-center">Nog niets ingepland voor deze dag.</li>';
+    return;
+  }
+  ul.innerHTML = lijst.map(a => `
+    <li class="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 transition-colors ${a.gezien ? 'bg-emerald-50/70' : 'hover:bg-slate-50'}">
+      <img src="https://picsum.photos/seed/${a.seed}/96/64" alt="" width="64" height="44"
+        class="w-16 h-11 object-cover rounded-md border border-ft-line shrink-0"
+        onerror="this.style.display='none'">
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-slate-800 truncate">${esc(a.titel)}</p>
+        <p class="text-xs text-slate-400 mt-0.5">${esc(a.auteur)} · ${esc(a.categorie)}</p>
+      </div>
+      <span class="shrink-0 text-[11px] font-medium px-2.5 py-1 rounded-full
+        ${a.status === 'Geplaatst' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${a.status}</span>
+      <div class="flex gap-1 shrink-0">
+        <button onclick="openModal(${a.id})" title="Aanpassen"
+          class="text-xs px-2.5 py-1.5 rounded-lg border border-ft-line text-slate-500 hover:border-ft-blue hover:text-ft-blue transition-colors">✏️</button>
+        <button onclick="markeerGezien(${a.id})" title="Gezien"
+          class="text-xs px-2.5 py-1.5 rounded-lg border transition-colors ${a.gezien ? 'border-emerald-400 text-emerald-600 bg-emerald-50' : 'border-ft-line text-slate-500 hover:border-emerald-400 hover:text-emerald-600'}">👍</button>
+      </div>
+    </li>`).join('');
+}
+function markeerGezien(id) {
+  const a = state.planning[state.actieveDag].find(x => x.id === id);
+  a.gezien = !a.gezien;
+  renderPlanning();
+}
+
+// ------------------------------------------------------------
+// MODAL · "Aanpassen" (dummy)
+// TODO: koppel aan CMS-endpoint (PATCH /articles/{id})
+// ------------------------------------------------------------
+let modalArtikelId = null;
+function openModal(id) {
+  const a = state.planning[state.actieveDag].find(x => x.id === id);
+  modalArtikelId = id;
+  document.getElementById('modalTitel').value = a.titel;
+  document.getElementById('modalStatus').value = a.status;
+  const m = document.getElementById('modal');
+  m.classList.remove('hidden'); m.classList.add('flex');
+}
+function sluitModal() {
+  const m = document.getElementById('modal');
+  m.classList.add('hidden'); m.classList.remove('flex');
+}
+function slaModalOp() {
+  const a = state.planning[state.actieveDag].find(x => x.id === modalArtikelId);
+  a.titel = document.getElementById('modalTitel').value.trim() || a.titel;
+  a.status = document.getElementById('modalStatus').value;
+  sluitModal(); renderPlanning();
+  toast('Artikel bijgewerkt (dummy)');
+}
+
+// ------------------------------------------------------------
+// RENDER · STATISTIEKEN + 6-UURS WAARSCHUWING
+// Logica: korter dan 6 uur online ÉN minder dan 1000 views.
+// Berekening gebeurt alléén bij laden en bij toevoegen (geen timer).
+// ------------------------------------------------------------
+function renderStats() {
+  const tb = document.getElementById('statsTabel');
+  tb.innerHTML = state.stats.map(s => {
+    const urenOnline = (NU.getTime() - s.gepubliceerd.getTime()) / 3600000;
+    const alert = urenOnline < 6 && s.views < 1000;
+    const tijd = s.gepubliceerd.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+    return `
+      <tr class="${alert ? 'bg-red-50/60' : ''} hover:bg-slate-50 transition-colors">
+        <td class="px-5 py-3 font-medium text-slate-800 max-w-xs truncate">${esc(s.titel)}</td>
+        <td class="px-5 py-3 text-slate-500">${esc(s.auteur)}</td>
+        <td class="px-5 py-3 text-slate-500">${tijd} <span class="text-xs text-slate-400">(${urenOnline.toFixed(1)} u online)</span></td>
+        <td class="px-5 py-3 text-right font-semibold ${s.views < 1000 ? 'text-slate-600' : 'text-emerald-600'}">${s.views.toLocaleString('nl-NL')}</td>
+        <td class="px-5 py-3">
+          ${alert ? '<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-white bg-ft-red px-2.5 py-1 rounded-full whitespace-nowrap">⚠️ Pas koptitel/plaatje aan!</span>' : '<span class="text-xs text-slate-300">—</span>'}
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+// ------------------------------------------------------------
+// DUMMY DATA BEHEER — formulieracties
+// ------------------------------------------------------------
+function vulSelects() {
+  const auteurOpts = Object.keys(REDACTEUREN).map(n => `<option>${n}</option>`).join('');
+  ['fMailVan','fSlackVan','fStatAuteur','fPlanAuteur'].forEach(id => document.getElementById(id).innerHTML = auteurOpts);
+  document.getElementById('fPlanCategorie').innerHTML = CATEGORIEEN.map(c => `<option>${esc(c)}</option>`).join('');
+  document.getElementById('fPlanDag').innerHTML = Array.from({ length: 7 }, (_, d) => `<option value="${d}">${dagLabel(d)}</option>`).join('');
+}
+
+function voegMailToe() {
+  const onderwerp = document.getElementById('fMailOnderwerp').value.trim();
+  if (!onderwerp) return toast('Vul een onderwerp in', true);
+  state.mails.unshift({ id: nieuwId(), van: document.getElementById('fMailVan').value, onderwerp, tijd: 'zojuist', gepind: false });
+  document.getElementById('fMailOnderwerp').value = '';
+  renderMails(); toast('Testmail toegevoegd');
+}
+
+function voegSlackToe() {
+  const bericht = document.getElementById('fSlackBericht').value.trim();
+  if (!bericht) return toast('Vul een bericht in', true);
+  state.slack.unshift({ id: nieuwId(), van: document.getElementById('fSlackVan').value, kanaal: '#redactie', bericht, tijd: 'zojuist', gepind: false });
+  document.getElementById('fSlackBericht').value = '';
+  renderSlack(); toast('Testbericht toegevoegd');
+}
+
+function voegStatToe() {
+  const titel = document.getElementById('fStatTitel').value.trim();
+  const uren = parseFloat(document.getElementById('fStatUren').value);
+  const views = parseInt(document.getElementById('fStatViews').value, 10);
+  if (!titel || isNaN(uren) || isNaN(views)) return toast('Vul titel, uren én views in', true);
+  state.stats.unshift({
+    id: nieuwId(), titel, views,
+    auteur: document.getElementById('fStatAuteur').value,
+    gepubliceerd: new Date(NU.getTime() - uren * 3600000)
+  });
+  ['fStatTitel','fStatUren','fStatViews'].forEach(id => document.getElementById(id).value = '');
+  renderStats(); // waarschuwing wordt hier opnieuw berekend
+  toast(uren < 6 && views < 1000 ? '⚠️ Artikel toegevoegd mét alert' : 'Artikel toegevoegd', uren < 6 && views < 1000);
+}
+
+function voegPlanningToe() {
+  const titel = document.getElementById('fPlanTitel').value.trim();
+  if (!titel) return toast('Vul een koptitel in', true);
+  const dag = parseInt(document.getElementById('fPlanDag').value, 10);
+  state.planning[dag].push({
+    id: nieuwId(), status: 'Pending',
+    auteur: document.getElementById('fPlanAuteur').value,
+    categorie: document.getElementById('fPlanCategorie').value,
+    titel, seed: 'ft' + Math.random().toString(36).slice(2, 7), gezien: false
+  });
+  document.getElementById('fPlanTitel').value = '';
+  kiesDag(dag);
+  toast('Artikel ingepland op ' + dagLabel(dag).toLowerCase());
+}
+
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
+async function init() {
+  // Topbar datum/tijd (alleen weergave; geen herberekening van alerts)
+  document.getElementById('topbarDatum').textContent =
+    DAGNAMEN[NU.getDay()] + ' ' + NU.getDate() + ' ' + MAANDEN[NU.getMonth()] + ' ' + NU.getFullYear();
+  document.getElementById('topbarTijd').textContent =
+    'Geladen om ' + NU.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+
+  // TODO: hier komen straks de echte API-calls parallel binnen
+  const [mails, slack] = await Promise.all([fetchFromGmailAPI(), fetchFromSlackAPI()]);
+  state.mails = mails;
+  state.slack = slack;
+
+  vulSelects();
+  renderMails(); renderSlack(); renderVoorraad();
+  renderDagChips(); renderPlanning(); renderStats();
+}
+init();
+</script>
+</body>
+</html>
